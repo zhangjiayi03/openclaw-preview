@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>《马戏之王》：马年最该重映的电影</title>
+    <title>T9833060-支持双11大促政策 | 原型设计</title>
     <style>
         * {
             margin: 0;
@@ -11,433 +11,1412 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary: #FF6B00;
+            --primary-light: #FFF3E6;
+            --success: #00B578;
+            --warning: #FF9500;
+            --danger: #FF4D4F;
+            --text-primary: #1F1F1F;
+            --text-secondary: #666666;
+            --text-placeholder: #999999;
+            --border: #E5E5E5;
+            --bg-page: #F5F5F5;
+            --bg-white: #FFFFFF;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.9;
-            color: #333;
-            background: #fafafa;
-            max-width: 720px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        /* 导航 */
+        .nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .logo {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+        
+        .nav-tab:hover {
+            background: var(--bg-page);
+            color: var(--text-primary);
+        }
+        
+        .nav-tab.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* 页面容器 */
+        .page-container {
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* 面包屑 */
+        .breadcrumb {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 24px;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .page-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* 卡片 */
+        .card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+        
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .card-body {
             padding: 20px;
         }
         
-        .article-container {
-            background: #fff;
-            padding: 50px 60px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        /* 表格 */
+        .table-wrapper {
+            overflow-x: auto;
         }
         
-        .article-header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .article-title {
-            font-size: 32px;
-            font-weight: 600;
-            color: #111;
-            margin-bottom: 16px;
-            line-height: 1.3;
-            letter-spacing: -0.5px;
-        }
-        
-        .article-meta {
-            font-size: 13px;
-            color: #999;
-            letter-spacing: 1px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #111;
-            margin: 50px 0 24px;
-            letter-spacing: -0.3px;
-        }
-        
-        p {
-            margin-bottom: 20px;
-            text-align: justify;
-            color: #333;
-        }
-        
-        .quote-box {
-            background: #f8f8f8;
-            border-left: 3px solid #c9a86c;
-            padding: 24px 30px;
-            margin: 40px 0;
-            font-style: italic;
-            color: #555;
-            font-size: 16px;
-        }
-        
-        .quote-box strong {
-            font-style: normal;
-            color: #222;
-        }
-        
-        .article-image {
+        table {
             width: 100%;
-            margin: 40px 0;
+            border-collapse: collapse;
+            font-size: 14px;
         }
         
-        .article-image svg {
-            width: 100%;
-            height: auto;
-            display: block;
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
         }
         
-        .image-caption {
+        th {
+            background: var(--bg-page);
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        
+        tr:hover td {
+            background: #FAFAFA;
+        }
+        
+        .text-center {
             text-align: center;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        /* 标签 */
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-size: 12px;
-            color: #999;
-            margin-top: 12px;
-            letter-spacing: 1px;
         }
         
-        .emphasis-box {
-            background: #111;
-            color: #fff;
-            padding: 30px 40px;
-            margin: 50px 0;
-            font-size: 17px;
-            line-height: 1.7;
+        .tag-orange {
+            background: var(--primary-light);
+            color: var(--primary);
         }
         
-        .recommend-section {
-            margin-top: 50px;
-            padding-top: 40px;
-            border-top: 1px solid #eee;
+        .tag-green {
+            background: #E6F7EE;
+            color: var(--success);
         }
         
-        .recommend-section h3 {
+        .tag-red {
+            background: #FFF1F0;
+            color: var(--danger);
+        }
+        
+        .tag-gray {
+            background: #F5F5F5;
+            color: var(--text-secondary);
+        }
+        
+        /* 按钮 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 4px;
             font-size: 14px;
-            font-weight: 600;
-            color: #999;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #E55D00;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-text {
+            background: none;
+            padding: 4px 8px;
+            color: var(--primary);
+        }
+        
+        .btn-text:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* 工具栏 */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 16px;
-            letter-spacing: 2px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         
-        .recommend-list {
-            list-style: none;
-            padding: 0;
+        .toolbar-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
         
-        .recommend-list li {
+        .toolbar-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* 搜索框 */
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0 12px;
+            width: 280px;
+        }
+        
+        .search-box input {
+            border: none;
+            outline: none;
             padding: 8px 0;
-            color: #555;
+            flex: 1;
             font-size: 14px;
         }
         
-        .recommend-list li strong {
-            color: #333;
+        .search-box .icon {
+            color: var(--text-placeholder);
         }
         
-        @media (max-width: 600px) {
-            .article-container {
-                padding: 30px 24px;
+        /* 筛选 */
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        
+        select {
+            padding: 6px 32px 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 8px center;
+            appearance: none;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            padding-top: 16px;
+        }
+        
+        .pagination-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-right: auto;
+        }
+        
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .page-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .page-btn:disabled {
+            background: #F5F5F5;
+            color: var(--text-placeholder);
+            cursor: not-allowed;
+        }
+        
+        /* 弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* 表单 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-label .required {
+            color: var(--danger);
+            margin-left: 2px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-placeholder);
+            margin-top: 4px;
+        }
+        
+        /* 上传区域 */
+        .upload-area {
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--text-placeholder);
+            margin-bottom: 12px;
+        }
+        
+        .upload-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .upload-text strong {
+            color: var(--primary);
+        }
+        
+        /* 锁定期显示 */
+        .lock-period {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #FFF1F0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--danger);
+            margin: 2px;
+        }
+        
+        .lock-period + .lock-period {
+            margin-left: 4px;
+        }
+        
+        /* 提示信息 */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .alert-info {
+            background: #E6F7FF;
+            border: 1px solid #91D5FF;
+            color: #0050B3;
+        }
+        
+        .alert-warning {
+            background: #FFFBE6;
+            border: 1px solid #FFE58F;
+            color: #AD6800;
+        }
+        
+        .alert-success {
+            background: #F6FFED;
+            border: 1px solid #B7EB8F;
+            color: #389E0D;
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-value.primary {
+            color: var(--primary);
+        }
+        
+        .stat-value.success {
+            color: var(--success);
+        }
+        
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .stat-trend.up {
+            color: var(--success);
+        }
+        
+        .stat-trend.down {
+            color: var(--danger);
+        }
+        
+        /* 时间线 */
+        .timeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .timeline-item {
+            padding: 4px 12px;
+            background: var(--bg-page);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .timeline-item.locked {
+            background: #FFF1F0;
+            color: var(--danger);
+            text-decoration: line-through;
+        }
+        
+        .timeline-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-page);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        /* Tab 切换 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        
+        .tab-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        
+        .tab-item:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* 锁定期编辑 */
+        .lock-edit-list {
+            margin-bottom: 20px;
+        }
+        
+        .lock-edit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-page);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .lock-edit-dates {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .lock-edit-date {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .lock-edit-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .lock-edit-status.pending {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .lock-edit-status.active {
+            background: #E6F7EE;
+            color: var(--success);
+        }
+        
+        .lock-edit-status.ended {
+            background: #F5F5F5;
+            color: var(--text-placeholder);
+        }
+        
+        /* 隐藏元素 */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
             
-            .article-title {
-                font-size: 26px;
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
             }
             
-            .section-title {
-                font-size: 18px;
+            .nav-tabs {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <article class="article-container">
-        <header class="article-header">
-            <h1 class="article-title">《马戏之王》：马年最该重映的电影</h1>
-            <div class="article-meta">影评 · 2026年3月</div>
-        </header>
-        
-        <!-- Hero Image -->
-        <div class="article-image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
-                <defs>
-                    <linearGradient id="darkbg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#0a0a0a"/>
-                        <stop offset="100%" style="stop-color:#1a1a1a"/>
-                    </linearGradient>
-                    <linearGradient id="lightbeam" x1="50%" y1="0%" x2="50%" y2="100%">
-                        <stop offset="0%" style="stop-color:#f5e6d3;stop-opacity:0.3"/>
-                        <stop offset="100%" style="stop-color:#f5e6d3;stop-opacity:0"/>
-                    </linearGradient>
-                </defs>
-                <rect width="800" height="450" fill="url(#darkbg)"/>
-                <polygon points="400,0 200,450 600,450" fill="url(#lightbeam)"/>
-                <polygon points="400,0 280,450 520,450" fill="url(#lightbeam)" opacity="0.5"/>
-                <g fill="#0d0d0d">
-                    <ellipse cx="400" cy="440" rx="60" ry="12"/>
-                    <rect x="370" y="200" width="60" height="200" rx="5"/>
-                    <circle cx="400" cy="170" r="45"/>
-                    <rect x="320" y="220" width="30" height="100" rx="10" transform="rotate(-20 320 220)"/>
-                    <rect x="450" y="220" width="30" height="100" rx="10" transform="rotate(20 450 220)"/>
-                </g>
-                <ellipse cx="400" cy="420" rx="180" ry="25" fill="#fff" opacity="0.03"/>
-                <text x="400" y="80" text-anchor="middle" fill="#f5e6d3" font-family="Georgia, serif" font-size="14" letter-spacing="8" opacity="0.7">THE GREATEST SHOWMAN</text>
-                <text x="400" y="120" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="42" font-weight="300" letter-spacing="4">马戏之王</text>
-                <text x="400" y="380" text-anchor="middle" fill="#666" font-family="Georgia, serif" font-size="13" font-style="italic">"No one ever made a difference by being like everyone else."</text>
-            </svg>
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <div class="nav-left">
+            <div class="logo">政策平台</div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showPage('enroll')">报名管理</button>
+                <button class="nav-tab" onclick="showPage('calc')">核算管理</button>
+                <button class="nav-tab" onclick="showPage('dashboard')">达成看板</button>
+                <button class="nav-tab" onclick="showPage('marketing')">营销平台</button>
+            </div>
         </div>
-
-        <h2 class="section-title">开场：你有没有看过《马戏之王》？</h2>
-        
-        <p>深夜，你刷着手机，看到有人推荐《马戏之王》。豆瓣7.3分，歌舞片，2017年的老电影。"好像还行？"你点开播放。</p>
-        
-        <p>两小时后，你坐在沙发上发呆。片尾曲响完很久了，你还不想动。</p>
-        
-        <p>不是因为电影有多深刻——它的故事你三天就能讲完。也不是因为演技炸裂——休·杰克曼就是在演一个"相信梦想的人"。</p>
-        
-        <p>而是因为，你好像被什么东西轻轻撞了一下。那些年你相信过的东西，又冒出来了。</p>
-
-        <h2 class="section-title">误区一：这就是个励志片</h2>
-        
-        <p>很多人看完《马戏之王》，说："不就是一个穷小子逆袭的故事吗？"</p>
-        
-        <p>对，但不全对。</p>
-        
-        <p>如果只看到"逆袭"，你错过了最重要的一条线：<strong>巴纳姆从一开始就不需要逆袭</strong>。</p>
-        
-        <p>他有妻子，有孩子，有稳定的工作，有小房子。放在今天，这是"有车有房、家庭美满"的标准模板。但他不满足。</p>
-        
-        <p>不是因为贪婪，而是因为他见过另一种可能——小时候，他见过富人家的小姐，见过灯光、音乐、掌声。他知道"还能更好"。</p>
-        
-        <p>所以真正的故事不是"从无到有"，而是<strong>"从满足到追求"</strong>。这比"逆袭"难多了——因为你得先承认，自己还不够好。</p>
-
-        <div class="article-image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
-                <defs>
-                    <linearGradient id="stagedark" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#0f0f0f"/>
-                        <stop offset="100%" style="stop-color:#1a1a1a"/>
-                    </linearGradient>
-                    <linearGradient id="stagelight" x1="50%" y1="0%" x2="50%" y2="100%">
-                        <stop offset="0%" style="stop-color:#d4a574;stop-opacity:0.4"/>
-                        <stop offset="100%" style="stop-color:#d4a574;stop-opacity:0"/>
-                    </linearGradient>
-                </defs>
-                <rect width="800" height="400" fill="url(#stagedark)"/>
-                <rect x="250" y="30" width="300" height="200" fill="none" stroke="#333" stroke-width="2"/>
-                <line x1="400" y1="30" x2="400" y2="230" stroke="#333" stroke-width="1"/>
-                <line x1="250" y1="130" x2="550" y2="130" stroke="#333" stroke-width="1"/>
-                <polygon points="400,30 300,400 500,400" fill="url(#stagelight)" opacity="0.6"/>
-                <polygon points="400,30 350,400 450,400" fill="url(#stagelight)" opacity="0.4"/>
-                <g fill="#0a0a0a">
-                    <ellipse cx="400" cy="390" rx="50" ry="10"/>
-                    <rect x="375" y="240" width="50" height="130" rx="3"/>
-                    <circle cx="400" cy="215" r="35"/>
-                    <path d="M375 260 Q340 200 310 180" stroke="#0a0a0a" stroke-width="10" fill="none" stroke-linecap="round"/>
-                    <path d="M425 260 Q460 200 490 180" stroke="#0a0a0a" stroke-width="10" fill="none" stroke-linecap="round"/>
-                </g>
-                <g fill="#d4a574" opacity="0.3">
-                    <circle cx="320" cy="150" r="1"/><circle cx="380" cy="100" r="1.5"/>
-                    <circle cx="420" cy="80" r="1"/><circle cx="460" cy="120" r="1.5"/>
-                </g>
-                <text x="400" y="380" text-anchor="middle" fill="#888" font-family="Georgia, serif" font-size="11" letter-spacing="3">梦想需要勇气</text>
-            </svg>
-            <div class="image-caption">THE STAGE</div>
+        <div class="nav-right">
+            <span class="badge">P0</span>
+            <span style="font-size: 14px; color: var(--text-secondary);">T9833060-双11大促政策</span>
         </div>
-
-        <h2 class="section-title">误区二：这是个讲"做自己"的故事</h2>
-        
-        <p>"做自己"——这三个字被说烂了。</p>
-        
-        <p>但《马戏之王》讲的是另一个东西：<strong>做自己，是要付出代价的</strong>。</p>
-        
-        <p>电影里的"怪人们"——留着胡子的女人、侏儒将军、连体双胞胎——他们不是在舞台上"做自己"。他们是在舞台上<strong>被看到</strong>。</p>
-        
-        <p>有什么区别？</p>
-        
-        <p>区别在于：被看到，意味着你从"怪物"变成了"明星"。你不再被躲在角落里指指点点，而是站在灯光下，让人们为你鼓掌。</p>
-        
-        <p>这不只是"做自己"。这是<strong>把你的不一样，变成别人无法忽视的存在</strong>。</p>
-
-        <div class="article-image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
-                <defs>
-                    <linearGradient id="mirrorbg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#0d0d0d"/>
-                        <stop offset="100%" style="stop-color:#111"/>
-                    </linearGradient>
-                </defs>
-                <rect width="800" height="400" fill="url(#mirrorbg)"/>
-                <line x1="400" y1="0" x2="400" y2="400" stroke="#222" stroke-width="1"/>
-                <g fill="#1a1a1a" opacity="0.8">
-                    <ellipse cx="200" cy="390" rx="40" ry="8"/>
-                    <rect x="175" y="200" width="50" height="160" rx="3"/>
-                    <circle cx="200" cy="175" r="35"/>
-                </g>
-                <rect x="50" y="80" width="300" height="240" fill="none" stroke="#333" stroke-width="3" rx="2"/>
-                <rect x="60" y="90" width="280" height="220" fill="#0a0a0a"/>
-                <g fill="#c9a86c" opacity="0.6">
-                    <ellipse cx="600" cy="390" rx="40" ry="8"/>
-                    <rect x="575" y="200" width="50" height="160" rx="3"/>
-                    <circle cx="600" cy="175" r="35"/>
-                </g>
-                <rect x="450" y="80" width="300" height="240" fill="none" stroke="#c9a86c" stroke-width="2" rx="2"/>
-                <rect x="460" y="90" width="280" height="220" fill="#0f0f0f"/>
-                <circle cx="680" cy="120" r="30" fill="#c9a86c" opacity="0.1"/>
-                <text x="200" y="360" text-anchor="middle" fill="#444" font-family="Georgia, serif" font-size="11" letter-spacing="2">被定义的</text>
-                <text x="600" y="360" text-anchor="middle" fill="#888" font-family="Georgia, serif" font-size="11" letter-spacing="2">真实的自己</text>
-            </svg>
-            <div class="image-caption">THIS IS ME</div>
-        </div>
-
-        <h2 class="section-title">误区三：成功就是赚钱</h2>
-        
-        <p>电影后半段，巴纳姆成功了。他见到了英国女王，他赚到了大钱，他买了豪宅。</p>
-        
-        <p>然后呢？</p>
-        
-        <p>然后他差点失去一切——妻子走了，朋友走了，马戏团烧了。</p>
-        
-        <p>为什么？因为他把"成功"等同于"被上流社会认可"。他花大价钱请歌剧演员，想挤进贵族的圈子。他以为，只要站到那个舞台，他就"成功了"。</p>
-        
-        <p>结果呢？贵族们照样看不起他。他们只是看个新鲜——"看啊，那个马戏团老板，居然想搞歌剧！"</p>
-        
-        <p><strong>你可以模仿别人的成功，但你永远无法成为别人。</strong></p>
-
-        <h2 class="section-title">真正的问题：什么是"马戏"？</h2>
-        
-        <div class="quote-box">
-            <strong>"人们来看马戏，不是为了看到完美。他们来看，是为了看到可能。"</strong>
-        </div>
-        
-        <p>这句话，我编的。但电影想说的，就是这个。</p>
-        
-        <p>马戏的真正意义，不是让人看到"多么精彩的表演"。而是让人看到——<strong>原来还能这样</strong>。</p>
-        
-        <p>原来侏儒可以当将军。原来长胡子的女人可以唱歌。原来连体的人可以跳舞。</p>
-        
-        <p>马戏告诉你：这个世界，比你想象的更大。</p>
-
-        <div class="article-image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
-                <defs>
-                    <linearGradient id="circusbg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#0a0a0a"/>
-                        <stop offset="50%" style="stop-color:#0f0f0f"/>
-                        <stop offset="100%" style="stop-color:#0a0a0a"/>
-                    </linearGradient>
-                </defs>
-                <rect width="800" height="400" fill="url(#circusbg)"/>
-                <path d="M0 0 Q40 200 0 400 L80 400 Q30 200 80 0 Z" fill="#1a1410" opacity="0.8"/>
-                <path d="M800 0 Q760 200 800 400 L720 400 Q770 200 720 0 Z" fill="#1a1410" opacity="0.8"/>
-                <rect x="0" y="350" width="800" height="50" fill="#0d0d0d"/>
-                <line x1="0" y1="350" x2="800" y2="350" stroke="#c9a86c" stroke-width="1" opacity="0.3"/>
-                <ellipse cx="400" cy="380" rx="250" ry="30" fill="#c9a86c" opacity="0.03"/>
-                <ellipse cx="400" cy="380" rx="150" ry="20" fill="#c9a86c" opacity="0.05"/>
-                <g fill="#0a0a0a" opacity="0.9">
-                    <rect x="150" y="180" width="25" height="140" rx="2"/>
-                    <circle cx="162" cy="160" r="20"/>
-                </g>
-                <g fill="#0d0d0d">
-                    <rect x="270" y="200" width="35" height="130" rx="2"/>
-                    <circle cx="287" cy="178" r="28"/>
-                    <path d="M270 230 Q240 180 220 150" stroke="#0d0d0d" stroke-width="8" fill="none" stroke-linecap="round"/>
-                    <path d="M305 230 Q340 200 370 190" stroke="#0d0d0d" stroke-width="8" fill="none" stroke-linecap="round"/>
-                </g>
-                <g fill="#0d0d0d">
-                    <rect x="385" y="210" width="30" height="120" rx="2"/>
-                    <circle cx="400" cy="190" r="25"/>
-                </g>
-                <g fill="#0a0a0a" opacity="0.9">
-                    <rect x="485" y="200" width="28" height="130" rx="2"/>
-                    <circle cx="499" cy="178" r="22"/>
-                </g>
-                <g fill="#0a0a0a" opacity="0.85">
-                    <rect x="600" y="250" width="20" height="80" rx="2"/>
-                    <circle cx="610" cy="235" r="16"/>
-                </g>
-                <text x="400" y="50" text-anchor="middle" fill="#555" font-family="Georgia, serif" font-size="10" letter-spacing="6">WE ARE ALL DIFFERENT</text>
-                <text x="400" y="385" text-anchor="middle" fill="#666" font-family="Georgia, serif" font-size="11" font-style="italic">"This is me."</text>
-            </svg>
-            <div class="image-caption">THE CIRCUS</div>
-        </div>
-
-        <h2 class="section-title">为什么这部电影，今天看更有味道？</h2>
-        
-        <p>2017年，《马戏之王》上映。那一年，"内卷"还没成为流行词，"躺平"还没成为一种选择。</p>
-        
-        <p>但今天看，这部电影突然有了新的意义。</p>
-        
-        <p>因为今天，我们太容易"满足"。一份稳定的工作，还过得去的薪水，偶尔的周末娱乐——够了，还要什么呢？</p>
-        
-        <p>但《马戏之王》提醒你：<strong>你曾经想要更多</strong>。</p>
-        
-        <p>也许你想过写一本书，想过创业，想过学一门乐器，想过环游世界。但后来，你说"算了，现实一点"。</p>
-        
-        <p>电影不会告诉你"一定要去追梦"。它只是让你看到——<strong>那些追梦的人，眼睛里有光</strong>。</p>
-        
-        <p>然后你自己选。</p>
-
-        <h2 class="section-title">歌舞片的意义：情绪比逻辑更重要</h2>
-        
-        <p>很多人说，"我不爱看歌舞片，演着演着突然唱歌，太尴尬了。"</p>
-        
-        <p>我理解。但《马戏之王》的歌舞，不只是"唱歌"。</p>
-        
-        <p>它是在用<strong>情绪</strong>讲故事。</p>
-        
-        <p>比如那首《This Is Me》。留着胡子的女人，站在舞台中央，用尽全身力气唱出来——<strong>"这就是我，我不会为你改变"</strong>。</p>
-        
-        <p>你不用听懂每一句词。你光是看那个画面，就能感受到那种力量。</p>
-        
-        <p>这就是歌舞片的优势：<strong>有些东西，用话说不清楚。但用歌，能唱进心里</strong>。</p>
-
-        <h2 class="section-title">对比一下：为什么它比很多"大片"更打动人？</h2>
-        
-        <p>你看多少超级英雄电影，看的时候很爽，看完就忘了。为什么？</p>
-        
-        <p>因为那些电影的主角，本来就是英雄。他们只需要"发挥潜力"就够了。</p>
-        
-        <p>但《马戏之王》的主角是什么？一个裁缝的儿子。一个没什么学历、没什么背景的普通人。</p>
-        
-        <p>他没有超能力。他的"超能力"，就是他愿意相信——<strong>我能做出点什么</strong>。</p>
-        
-        <p>然后他去找那些"怪人"，把他们组织起来，让他们站到台上。</p>
-        
-        <p>这不就是大多数普通人的故事吗？我们也没有超能力。我们有的，只是那点不甘心。</p>
-
-        <h2 class="section-title">结尾：马年看《马戏之王》，不只是巧合</h2>
-        
-        <p>今年是马年。《马戏之王》里也有马——虽然只是象征性的。</p>
-        
-        <p>但更重要的是，这部电影提醒你：<strong>马戏精神</strong>。</p>
-        
-        <p>什么是马戏精神？</p>
-        
-        <p>就是那种——你明知道会失败，但还是想试一试的劲头。就是你明知道别人会嘲笑，但还是站出来的勇气。就是那种"我也许不行，但我不想连试都没试"的倔强。</p>
-        
-        <div class="emphasis-box">
-            <p>马戏之王不是马戏团老板。马戏之王是每一个愿意站出来的人。</p>
+    </nav>
+    
+    <div class="page-container">
+        <!-- ==================== 报名管理页面 ==================== -->
+        <div id="page-enroll" class="page">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">政策管理</a> / <a href="#">政策列表</a> / 双11闯关赛政策
+                </div>
+                <h1 class="page-title">客户报名信息</h1>
+                <p class="page-desc">支持批量设置、删除、编辑客户考核锁定期</p>
+            </div>
+            
+            <!-- 操作提示 -->
+            <div class="alert alert-info">
+                💡 <strong>锁定期说明</strong>：考核期内，客户消耗不计入发奖的一段时间周期。一段考核期内，可能存在不连续的多个锁定期。
+            </div>
+            
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="search-box">
+                        <span class="icon">🔍</span>
+                        <input type="text" placeholder="搜索快手ID / 客户名称">
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-label">考核期状态：</span>
+                        <select>
+                            <option>全部</option>
+                            <option>未开始</option>
+                            <option>进行中</option>
+                            <option>已结束</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-label">锁定期：</span>
+                        <select>
+                            <option>全部</option>
+                            <option>已设置</option>
+                            <option>未设置</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-outline" onclick="showModal('upload')">
+                        📤 批量设置锁定期
+                    </button>
+                    <button class="btn btn-outline" onclick="showModal('delete')">
+                        🗑️ 批量删除锁定期
+                    </button>
+                    <button class="btn btn-primary">
+                        📥 导出数据
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 数据表格 -->
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>快手ID</th>
+                                <th>客户名称</th>
+                                <th>销售</th>
+                                <th>考核期</th>
+                                <th style="background: #FFF1F0;">🔒 考核锁定期</th>
+                                <th>报名状态</th>
+                                <th>报名时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>123456789</td>
+                                <td>杭州某某科技有限公司</td>
+                                <td>张三</td>
+                                <td>2025/11/01 - 2025/11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 2025/11/11-11/13</span>
+                                    <span class="lock-period">🔒 2025/11/21-11/22</span>
+                                </td>
+                                <td><span class="tag tag-green">已报名</span></td>
+                                <td>2025/10/25 14:30</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>987654321</td>
+                                <td>北京某某传媒有限公司</td>
+                                <td>李四</td>
+                                <td>2025/11/01 - 2025/11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 2025/11/05-11/10</span>
+                                </td>
+                                <td><span class="tag tag-green">已报名</span></td>
+                                <td>2025/10/26 09:15</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>456789123</td>
+                                <td>上海某某电子商务</td>
+                                <td>王五</td>
+                                <td>2025/11/01 - 2025/11/30</td>
+                                <td style="color: var(--text-placeholder);">-</td>
+                                <td><span class="tag tag-green">已报名</span></td>
+                                <td>2025/10/27 16:45</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>789123456</td>
+                                <td>广州某某贸易公司</td>
+                                <td>赵六</td>
+                                <td>2025/11/01 - 2025/11/30</td>
+                                <td style="color: var(--text-placeholder);">-</td>
+                                <td><span class="tag tag-orange">待审核</span></td>
+                                <td>2025/10/28 10:00</td>
+                                <td>
+                                    <span style="color: var(--text-placeholder); font-size: 12px;">报名成功后可编辑</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="card-body">
+                    <div class="pagination">
+                        <div class="pagination-info">共 4 条记录，第 1/1 页</div>
+                        <button class="page-btn" disabled>‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" disabled>›</button>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <p>所以，马年看《马戏之王》，不只是应景。它是一个提醒——</p>
-        
-        <p><strong>你还记得，自己曾经想成为什么样的人吗？</strong></p>
-        
-        <p>如果记得，那就去做点什么吧。哪怕很小，哪怕会失败。</p>
-        
-        <p>毕竟，<strong>没有人会因为"没做过的事"后悔</strong>。</p>
-
-        <div class="recommend-section">
-            <h3>延伸推荐</h3>
-            <ul class="recommend-list">
-                <li><strong>《爱乐之城》</strong> — 另一部让人想跳舞的电影</li>
-                <li><strong>《悲惨世界》</strong> — 更厚重的歌舞史诗</li>
-                <li><strong>《芝加哥》</strong> — 暗黑风歌舞片</li>
-                <li><strong>《妈妈咪呀！》</strong> — 轻松治愈的歌舞片</li>
-            </ul>
+        <!-- ==================== 核算管理页面 ==================== -->
+        <div id="page-calc" class="page hidden">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">政策管理</a> / <a href="#">核算管理</a> / 双11闯关赛政策
+                </div>
+                <h1 class="page-title">核算结果列表</h1>
+                <p class="page-desc">系统自动核算，锁定期内消耗不计入奖励计算</p>
+            </div>
+            
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">核算客户数</div>
+                    <div class="stat-value">128</div>
+                    <div class="stat-trend up">↑ 12 较昨日</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">核算期总消耗</div>
+                    <div class="stat-value primary">¥ 2,456,789</div>
+                    <div class="stat-trend up">↑ 8.5%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">预估奖励总额</div>
+                    <div class="stat-value success">¥ 345,678</div>
+                    <div class="stat-trend up">↑ 15.2%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">锁定期影响客户</div>
+                    <div class="stat-value" style="color: var(--danger);">23</div>
+                    <div class="stat-trend">占比 18%</div>
+                </div>
+            </div>
+            
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="search-box">
+                        <span class="icon">🔍</span>
+                        <input type="text" placeholder="搜索快手ID / 客户名称">
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-label">核算日期：</span>
+                        <select>
+                            <option>2025-11-01</option>
+                            <option>2025-10-31</option>
+                            <option>2025-10-30</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-primary">📥 导出核算明细</button>
+                </div>
+            </div>
+            
+            <!-- 数据表格 -->
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>快手ID</th>
+                                <th>客户名称</th>
+                                <th>核算周期</th>
+                                <th style="background: #FFF1F0;">🔒 锁定期</th>
+                                <th>基期消耗</th>
+                                <th>考核期消耗</th>
+                                <th>消耗涨幅</th>
+                                <th>预估奖励</th>
+                                <th>核算状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>123456789</td>
+                                <td>杭州某某科技有限公司</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 11/11-13</span>
+                                    <span class="lock-period">🔒 11/21-22</span>
+                                </td>
+                                <td class="text-right">¥ 156,000</td>
+                                <td class="text-right">¥ 189,500</td>
+                                <td class="text-right" style="color: var(--success);">+21.5%</td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 23,450</td>
+                                <td><span class="tag tag-green">已核算</span></td>
+                            </tr>
+                            <tr>
+                                <td>987654321</td>
+                                <td>北京某某传媒有限公司</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 11/05-10</span>
+                                </td>
+                                <td class="text-right">¥ 234,000</td>
+                                <td class="text-right">¥ 267,800</td>
+                                <td class="text-right" style="color: var(--success);">+14.4%</td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 31,200</td>
+                                <td><span class="tag tag-green">已核算</span></td>
+                            </tr>
+                            <tr>
+                                <td>456789123</td>
+                                <td>上海某某电子商务</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td style="color: var(--text-placeholder);">-</td>
+                                <td class="text-right">¥ 89,000</td>
+                                <td class="text-right">¥ 102,300</td>
+                                <td class="text-right" style="color: var(--success);">+14.9%</td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 12,150</td>
+                                <td><span class="tag tag-green">已核算</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-    </article>
+        
+        <!-- ==================== 达成看板页面 ==================== -->
+        <div id="page-dashboard" class="page hidden">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">政策管理</a> / <a href="#">达成看板</a> / 双11闯关赛政策
+                </div>
+                <h1 class="page-title">客户达成监控</h1>
+                <p class="page-desc">实时监控客户达成进度，锁定期内进度暂停统计</p>
+            </div>
+            
+            <!-- Tab 切换 -->
+            <div class="tabs">
+                <div class="tab-item active">已报名用户</div>
+                <div class="tab-item">未报名用户</div>
+                <div class="tab-item">客户视角</div>
+            </div>
+            
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">已报名客户</div>
+                    <div class="stat-value primary">128</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">总消耗（剔除锁定期）</div>
+                    <div class="stat-value">¥ 4,567,890</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">平均涨幅</div>
+                    <div class="stat-value success">+18.6%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">预估奖励总额</div>
+                    <div class="stat-value">¥ 567,890</div>
+                </div>
+            </div>
+            
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="search-box">
+                        <span class="icon">🔍</span>
+                        <input type="text" placeholder="搜索快手ID / 客户名称">
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-label">达成状态：</span>
+                        <select>
+                            <option>全部</option>
+                            <option>已达成</option>
+                            <option>进行中</option>
+                            <option>未达成</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-primary">📥 导出数据</button>
+                </div>
+            </div>
+            
+            <!-- 数据表格 -->
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>快手ID</th>
+                                <th>客户名称</th>
+                                <th>考核期</th>
+                                <th style="background: #FFF1F0;">🔒 考核锁定期</th>
+                                <th>活动结束时间</th>
+                                <th>考核期消耗</th>
+                                <th>达成进度</th>
+                                <th>预估奖励</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>123456789</td>
+                                <td>杭州某某科技有限公司</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 11/11-13</span>
+                                    <span class="lock-period">🔒 11/21-22</span>
+                                </td>
+                                <td>2025/11/30</td>
+                                <td class="text-right">¥ 189,500</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div class="progress-bar" style="width: 100px;">
+                                            <div class="progress-fill" style="width: 78%;"></div>
+                                        </div>
+                                        <span style="font-size: 12px;">78%</span>
+                                    </div>
+                                </td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 23,450</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm">查看详情</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>987654321</td>
+                                <td>北京某某传媒有限公司</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td>
+                                    <span class="lock-period">🔒 11/05-10</span>
+                                </td>
+                                <td>2025/11/30</td>
+                                <td class="text-right">¥ 267,800</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div class="progress-bar" style="width: 100px;">
+                                            <div class="progress-fill" style="width: 92%; background: var(--success);"></div>
+                                        </div>
+                                        <span style="font-size: 12px; color: var(--success); font-weight: 500;">92%</span>
+                                    </div>
+                                </td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 31,200</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm">查看详情</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>456789123</td>
+                                <td>上海某某电子商务</td>
+                                <td>2025/11/01 - 11/30</td>
+                                <td style="color: var(--text-placeholder);">-</td>
+                                <td>2025/11/30</td>
+                                <td class="text-right">¥ 102,300</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <div class="progress-bar" style="width: 100px;">
+                                            <div class="progress-fill" style="width: 45%;"></div>
+                                        </div>
+                                        <span style="font-size: 12px;">45%</span>
+                                    </div>
+                                </td>
+                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 12,150</td>
+                                <td>
+                                    <button class="btn btn-text btn-sm">查看详情</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ==================== 营销平台页面 ==================== -->
+        <div id="page-marketing" class="page hidden">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">营销平台</a> / <a href="#">我的活动</a> / 双11闯关赛
+                </div>
+                <h1 class="page-title">活动详情</h1>
+                <p class="page-desc">面向客户的营销平台展示页面</p>
+            </div>
+            
+            <!-- 活动卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎉 双11金牛闯关赛</h3>
+                    <span class="tag tag-green">进行中</span>
+                </div>
+                <div class="card-body">
+                    <!-- 考核时间（含锁定期提示） -->
+                    <div class="alert alert-warning" style="margin-bottom: 24px;">
+                        <strong>📌 考核时间：共计 28 天 | 2025/11/01-2025/11/30</strong><br>
+                        <span style="color: var(--danger);">🔒 消耗锁定期共 3 天，对应消耗不计入本活动（11/11-11/13）</span>
+                    </div>
+                    
+                    <!-- 时间线展示 -->
+                    <div style="margin-bottom: 24px;">
+                        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">考核期时间线：</div>
+                        <div class="timeline">
+                            <div class="timeline-item">11/01</div>
+                            <div class="timeline-item">11/02</div>
+                            <div class="timeline-item">...</div>
+                            <div class="timeline-item locked">11/11</div>
+                            <div class="timeline-item locked">11/12</div>
+                            <div class="timeline-item locked">11/13</div>
+                            <div class="timeline-item">11/14</div>
+                            <div class="timeline-item active">11/15</div>
+                            <div class="timeline-item">...</div>
+                            <div class="timeline-item">11/30</div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-placeholder); margin-top: 8px;">
+                            <span style="background: #FFF1F0; padding: 2px 6px; border-radius: 2px;">划线日期</span> 为锁定期，消耗不计入活动
+                        </div>
+                    </div>
+                    
+                    <!-- 数据展示 -->
+                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
+                            <div class="stat-label">考核期消耗（剔除锁定期）</div>
+                            <div class="stat-value primary">¥ 189,500</div>
+                        </div>
+                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
+                            <div class="stat-label">达成进度</div>
+                            <div class="stat-value success">78%</div>
+                        </div>
+                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
+                            <div class="stat-label">预估奖励</div>
+                            <div class="stat-value">¥ 23,450</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 进度条 -->
+                    <div style="margin-top: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px;">奖励达成进度</span>
+                            <span style="font-size: 14px; color: var(--primary); font-weight: 500;">¥ 189,500 / ¥ 243,000</span>
+                        </div>
+                        <div class="progress-bar" style="height: 16px;">
+                            <div class="progress-fill" style="width: 78%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                            <span>当前档位：第二档</span>
+                            <span>距离下一档还需：¥ 53,500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 消息通知示例 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📬 消息中心</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info" style="margin-bottom: 0;">
+                        <strong>活动变动提醒</strong><br>
+                        因您在 2025-11-11 至 2025-11-13 参与其他活动，该时间段消耗不计入【双11金牛闯关赛】，其他时间段不受影响，如有疑问请咨询销售。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ==================== 弹窗：批量设置锁定期 ==================== -->
+    <div id="modal-upload" class="modal-overlay hidden">
+        <div class="modal" style="width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">批量设置考核锁定期</h3>
+                <button class="modal-close" onclick="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    💡 仅政策创建人可操作，支持设置未来日期的锁定期，且需在考核期范围内。
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">操作类型<span class="required">*</span></label>
+                    <div style="display: flex; gap: 16px;">
+                        <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                            <input type="radio" name="opType" checked> 新增锁定期
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                            <input type="radio" name="opType"> 删除锁定期
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">上传 Excel 文件<span class="required">*</span></label>
+                    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">
+                            点击或拖拽文件到此处上传<br>
+                            <strong>支持 .xlsx, .xls 格式</strong>
+                        </div>
+                    </div>
+                    <input type="file" id="file-input" style="display: none;">
+                    <div class="form-hint">
+                        模板字段：快手ID、锁定期开始时间、锁定期结束时间<br>
+                        时间格式：yyyymmdd（如 20251111）<br>
+                        单次上传明细数量 ≤ 2000 条
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-outline btn-sm">📥 下载模板</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideModal()">取消</button>
+                <button class="btn btn-primary">确认上传</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ==================== 弹窗：编辑锁定期 ==================== -->
+    <div id="modal-edit" class="modal-overlay hidden">
+        <div class="modal" style="width: 550px;">
+            <div class="modal-header">
+                <h3 class="modal-title">编辑考核锁定期</h3>
+                <button class="modal-close" onclick="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-page); border-radius: 4px;">
+                    <div style="font-size: 12px; color: var(--text-secondary);">快手ID</div>
+                    <div style="font-size: 16px; font-weight: 500;">123456789</div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">杭州某某科技有限公司</div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 500; margin-bottom: 12px;">已设置的锁定期：</div>
+                    <div class="lock-edit-list">
+                        <div class="lock-edit-item">
+                            <div class="lock-edit-dates">
+                                <input type="date" class="lock-edit-date" value="2025-11-11">
+                                <span>至</span>
+                                <input type="date" class="lock-edit-date" value="2025-11-13">
+                            </div>
+                            <span class="lock-edit-status pending">未生效</span>
+                            <button class="btn btn-text btn-sm" style="color: var(--danger);">删除</button>
+                        </div>
+                        <div class="lock-edit-item">
+                            <div class="lock-edit-dates">
+                                <input type="date" class="lock-edit-date" value="2025-11-21">
+                                <span>至</span>
+                                <input type="date" class="lock-edit-date" value="2025-11-22">
+                            </div>
+                            <span class="lock-edit-status pending">未生效</span>
+                            <button class="btn btn-text btn-sm" style="color: var(--danger);">删除</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline" style="width: 100%;">
+                    ➕ 新增锁定期
+                </button>
+                
+                <div class="alert alert-warning" style="margin-top: 16px;">
+                    ⚠️ 校验规则：
+                    <ul style="margin: 8px 0 0 20px; font-size: 12px;">
+                        <li>开始时间需晚于当前时间</li>
+                        <li>时间范围需在考核期内（2025/11/01 - 11/30）</li>
+                        <li>同一客户多个锁定期不可交叉</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="hideModal()">取消</button>
+                <button class="btn btn-primary">保存修改</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 页面切换
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // 弹窗控制
+        function showModal(modalId) {
+            document.getElementById('modal-' + modalId).classList.remove('hidden');
+        }
+        
+        function hideModal() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+        }
+        
+        // 点击遮罩关闭弹窗
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
