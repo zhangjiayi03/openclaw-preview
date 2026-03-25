@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T9833060-支持双11大促政策 | 原型设计</title>
+    <title>T9833060-支持双11大促政策 | 锁定期管理原型</title>
     <style>
         * {
             margin: 0;
@@ -11,383 +11,431 @@
             box-sizing: border-box;
         }
         
-        :root {
-            --primary: #FF6B00;
-            --primary-light: #FFF3E6;
-            --success: #00B578;
-            --warning: #FF9500;
-            --danger: #FF4D4F;
-            --text-primary: #1F1F1F;
-            --text-secondary: #666666;
-            --text-placeholder: #999999;
-            --border: #E5E5E5;
-            --bg-page: #F5F5F5;
-            --bg-white: #FFFFFF;
-            --shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: var(--bg-page);
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #f5f6f7;
+            color: #1f2329;
+            font-size: 14px;
             line-height: 1.5;
         }
         
-        /* 导航 */
-        .nav {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
+        /* 顶部导航 */
+        .top-nav {
+            background: #fff;
+            border-bottom: 1px solid #e5e6eb;
             padding: 0 24px;
             height: 56px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
         }
         
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-        
-        .logo {
+        .nav-logo {
+            font-size: 16px;
             font-weight: 600;
-            font-size: 18px;
-            color: var(--primary);
+            color: #1f2329;
+            margin-right: 24px;
         }
         
-        .nav-tabs {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .nav-tab {
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
+        .nav-breadcrumb {
             font-size: 14px;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            border: none;
-            background: none;
+            color: #86909c;
         }
         
-        .nav-tab:hover {
-            background: var(--bg-page);
-            color: var(--text-primary);
-        }
-        
-        .nav-tab.active {
-            background: var(--primary-light);
-            color: var(--primary);
-            font-weight: 500;
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .badge {
-            background: var(--primary);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        
-        /* 页面容器 */
-        .page-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-        
-        /* 面包屑 */
-        .breadcrumb {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-        
-        .breadcrumb a {
-            color: var(--primary);
+        .nav-breadcrumb a {
+            color: #86909c;
             text-decoration: none;
+        }
+        
+        .nav-breadcrumb a:hover {
+            color: #165dff;
+        }
+        
+        .nav-breadcrumb span {
+            margin: 0 8px;
+        }
+        
+        /* 主内容区 */
+        .main-container {
+            margin-top: 56px;
+            padding: 20px 24px;
+            min-height: calc(100vh - 56px);
         }
         
         /* 页面标题 */
         .page-header {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .page-title {
             font-size: 20px;
             font-weight: 600;
+            color: #1f2329;
             margin-bottom: 8px;
         }
         
-        .page-desc {
+        .page-subtitle {
             font-size: 14px;
-            color: var(--text-secondary);
+            color: #86909c;
         }
         
-        /* 卡片 */
+        /* 卡片容器 */
         .card {
-            background: var(--bg-white);
+            background: #fff;
             border-radius: 8px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
             margin-bottom: 16px;
         }
         
-        .card-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
+        /* Tab 导航 */
+        .tabs-container {
+            padding: 0 24px;
+            border-bottom: 1px solid #e5e6eb;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .tab-item {
+            padding: 16px 0;
+            color: #86909c;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab-item:hover {
+            color: #165dff;
+        }
+        
+        .tab-item.active {
+            color: #165dff;
+            border-bottom-color: #165dff;
+        }
+        
+        .tab-item .badge {
+            display: inline-block;
+            margin-left: 4px;
+            padding: 0 6px;
+            height: 18px;
+            line-height: 18px;
+            font-size: 12px;
+            background: #f2f3f5;
+            border-radius: 9px;
+            color: #86909c;
+        }
+        
+        .tab-item.active .badge {
+            background: #e8f3ff;
+            color: #165dff;
+        }
+        
+        /* 搜索区域 */
+        .search-area {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f2f3f5;
+        }
+        
+        .search-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        
+        .search-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .search-label {
+            font-size: 12px;
+            color: #86909c;
+        }
+        
+        .search-input {
+            width: 200px;
+            height: 32px;
+            padding: 0 12px;
+            border: 1px solid #e5e6eb;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .search-input:focus {
+            border-color: #165dff;
+        }
+        
+        .search-input::placeholder {
+            color: #c9cdd4;
+        }
+        
+        .search-select {
+            width: 160px;
+            height: 32px;
+            padding: 0 32px 0 12px;
+            border: 1px solid #e5e6eb;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386909c' d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E") no-repeat right 12px center;
+            cursor: pointer;
+            appearance: none;
+        }
+        
+        .search-select:focus {
+            border-color: #165dff;
+        }
+        
+        .btn {
+            height: 32px;
+            padding: 0 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .btn-primary {
+            background: #165dff;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: #4080ff;
+        }
+        
+        .btn-secondary {
+            background: #f2f3f5;
+            color: #1f2329;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e6eb;
+        }
+        
+        .btn-outline {
+            background: #fff;
+            color: #165dff;
+            border: 1px solid #165dff;
+        }
+        
+        .btn-outline:hover {
+            background: #e8f3ff;
+        }
+        
+        .btn-success {
+            background: #00b42a;
+            color: #fff;
+        }
+        
+        .btn-success:hover {
+            background: #00c853;
+        }
+        
+        .btn-danger {
+            background: #f53f3f;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background: #ff5752;
+        }
+        
+        .btn-text {
+            background: transparent;
+            color: #165dff;
+            padding: 0;
+            height: auto;
+        }
+        
+        .btn-text:hover {
+            color: #4080ff;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* 操作栏 */
+        .action-bar {
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #f2f3f5;
         }
         
-        .card-title {
-            font-size: 16px;
-            font-weight: 500;
+        .action-bar-left {
+            display: flex;
+            gap: 12px;
         }
         
-        .card-body {
-            padding: 20px;
+        .action-bar-right {
+            display: flex;
+            gap: 12px;
         }
         
         /* 表格 */
-        .table-wrapper {
+        .table-container {
             overflow-x: auto;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
         }
         
         th, td {
             padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #f2f3f5;
         }
         
         th {
-            background: var(--bg-page);
+            background: #f7f8fa;
             font-weight: 500;
-            color: var(--text-secondary);
+            color: #1f2329;
             white-space: nowrap;
         }
         
+        td {
+            color: #1f2329;
+        }
+        
         tr:hover td {
-            background: #FAFAFA;
+            background: #f7f8fa;
         }
         
-        .text-center {
-            text-align: center;
+        .table-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
         }
         
-        .text-right {
-            text-align: right;
-        }
-        
-        /* 标签 */
-        .tag {
+        /* 状态标签 */
+        .status-tag {
             display: inline-block;
             padding: 2px 8px;
             border-radius: 4px;
             font-size: 12px;
+            font-weight: 500;
         }
         
-        .tag-orange {
-            background: var(--primary-light);
-            color: var(--primary);
+        .status-success {
+            background: #e8ffea;
+            color: #00b42a;
         }
         
-        .tag-green {
-            background: #E6F7EE;
-            color: var(--success);
+        .status-warning {
+            background: #fff7e8;
+            color: #ff7d00;
         }
         
-        .tag-red {
-            background: #FFF1F0;
-            color: var(--danger);
+        .status-error {
+            background: #ffece8;
+            color: #f53f3f;
         }
         
-        .tag-gray {
-            background: #F5F5F5;
-            color: var(--text-secondary);
+        .status-default {
+            background: #f2f3f5;
+            color: #86909c;
         }
         
-        /* 按钮 */
-        .btn {
+        .status-blue {
+            background: #e8f3ff;
+            color: #165dff;
+        }
+        
+        /* 锁定期标签 */
+        .lock-period-tag {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #E55D00;
-        }
-        
-        .btn-outline {
-            background: white;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-        
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-text {
-            background: none;
+            gap: 4px;
             padding: 4px 8px;
-            color: var(--primary);
-        }
-        
-        .btn-text:hover {
-            background: var(--primary-light);
-        }
-        
-        .btn-sm {
-            padding: 4px 12px;
+            background: #fff7e8;
+            color: #ff7d00;
+            border-radius: 4px;
             font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 4px;
         }
         
-        .btn-group {
-            display: flex;
-            gap: 8px;
+        .lock-period-tag svg {
+            width: 14px;
+            height: 14px;
         }
         
-        /* 工具栏 */
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        
-        .toolbar-left {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .toolbar-right {
-            display: flex;
-            gap: 12px;
-        }
-        
-        /* 搜索框 */
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 0 12px;
-            width: 280px;
-        }
-        
-        .search-box input {
-            border: none;
-            outline: none;
-            padding: 8px 0;
-            flex: 1;
-            font-size: 14px;
-        }
-        
-        .search-box .icon {
-            color: var(--text-placeholder);
-        }
-        
-        /* 筛选 */
-        .filter-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .filter-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        
-        select {
-            padding: 6px 32px 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 14px;
-            background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 8px center;
-            appearance: none;
+        /* 链接样式 */
+        .link {
+            color: #165dff;
+            text-decoration: none;
             cursor: pointer;
         }
         
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
+        .link:hover {
+            color: #4080ff;
+            text-decoration: underline;
         }
         
         /* 分页 */
         .pagination {
+            padding: 16px 24px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 8px;
-            padding-top: 16px;
+            gap: 16px;
         }
         
         .pagination-info {
+            color: #86909c;
             font-size: 14px;
-            color: var(--text-secondary);
-            margin-right: auto;
+        }
+        
+        .pagination-btns {
+            display: flex;
+            gap: 4px;
         }
         
         .page-btn {
             min-width: 32px;
             height: 32px;
-            border: 1px solid var(--border);
-            background: white;
+            padding: 0 8px;
+            border: 1px solid #e5e6eb;
+            background: #fff;
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
+            color: #1f2329;
         }
         
         .page-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            border-color: #165dff;
+            color: #165dff;
         }
         
         .page-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
+            background: #165dff;
+            color: #fff;
+            border-color: #165dff;
         }
         
         .page-btn:disabled {
-            background: #F5F5F5;
-            color: var(--text-placeholder);
+            opacity: 0.5;
             cursor: not-allowed;
         }
         
@@ -398,27 +446,40 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.45);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
         }
         
         .modal {
-            background: white;
+            background: #fff;
             border-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.16);
-            max-width: 90vw;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            width: 90%;
             max-height: 90vh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.show .modal {
+            transform: scale(1);
         }
         
         .modal-header {
             padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #e5e6eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -426,995 +487,1060 @@
         
         .modal-title {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .modal-close {
             width: 32px;
             height: 32px;
             border: none;
-            background: none;
+            background: transparent;
             cursor: pointer;
-            font-size: 20px;
-            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
         }
         
         .modal-close:hover {
-            color: var(--text-primary);
+            background: #f2f3f5;
         }
         
         .modal-body {
             padding: 24px;
+            max-height: calc(90vh - 130px);
             overflow-y: auto;
-            flex: 1;
         }
         
         .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
+            padding: 12px 24px;
+            border-top: 1px solid #e5e6eb;
             display: flex;
             justify-content: flex-end;
             gap: 12px;
         }
         
-        /* 表单 */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .form-label .required {
-            color: var(--danger);
-            margin-left: 2px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .form-hint {
-            font-size: 12px;
-            color: var(--text-placeholder);
-            margin-top: 4px;
-        }
-        
         /* 上传区域 */
         .upload-area {
-            border: 1px dashed var(--border);
+            border: 1px dashed #c9cdd4;
             border-radius: 8px;
             padding: 40px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
+            margin-bottom: 16px;
         }
         
         .upload-area:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
+            border-color: #165dff;
+            background: #f7faff;
         }
         
         .upload-icon {
-            font-size: 48px;
-            color: var(--text-placeholder);
-            margin-bottom: 12px;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            color: #c9cdd4;
         }
         
         .upload-text {
-            font-size: 14px;
-            color: var(--text-secondary);
+            color: #86909c;
+            margin-bottom: 8px;
         }
         
-        .upload-text strong {
-            color: var(--primary);
-        }
-        
-        /* 锁定期显示 */
-        .lock-period {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: #FFF1F0;
-            padding: 2px 8px;
-            border-radius: 4px;
+        .upload-hint {
             font-size: 12px;
-            color: var(--danger);
-            margin: 2px;
+            color: #c9cdd4;
         }
         
-        .lock-period + .lock-period {
-            margin-left: 4px;
+        /* 校验结果 */
+        .validation-result {
+            background: #f7f8fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .result-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .result-icon.success {
+            color: #00b42a;
+        }
+        
+        .result-icon.error {
+            color: #f53f3f;
+        }
+        
+        .result-text {
+            font-weight: 500;
+        }
+        
+        .result-detail {
+            font-size: 13px;
+            color: #86909c;
+            margin-top: 8px;
+        }
+        
+        /* 锁定期列表 */
+        .lock-period-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .lock-period-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f7f8fa;
+            border-radius: 6px;
+        }
+        
+        .lock-period-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .lock-period-dates {
+            font-weight: 500;
+        }
+        
+        .lock-period-status {
+            font-size: 12px;
+        }
+        
+        .lock-period-actions {
+            display: flex;
+            gap: 8px;
         }
         
         /* 提示信息 */
         .alert {
             padding: 12px 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 16px;
-            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
         }
         
         .alert-info {
-            background: #E6F7FF;
-            border: 1px solid #91D5FF;
-            color: #0050B3;
+            background: #e8f3ff;
+            border: 1px solid #94c4ff;
+            color: #165dff;
         }
         
         .alert-warning {
-            background: #FFFBE6;
-            border: 1px solid #FFE58F;
-            color: #AD6800;
+            background: #fff7e8;
+            border: 1px solid #ffcf8e;
+            color: #ff7d00;
         }
         
-        .alert-success {
-            background: #F6FFED;
-            border: 1px solid #B7EB8F;
-            color: #389E0D;
+        .alert svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
         
-        /* 统计卡片 */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #86909c;
         }
         
-        .stat-card {
-            background: white;
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            color: #c9cdd4;
+        }
+        
+        /* 右侧导航 */
+        .side-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            z-index: 50;
         }
         
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+        .side-nav-item {
+            display: block;
+            padding: 8px 16px;
+            color: #86909c;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            white-space: nowrap;
         }
         
-        .stat-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--text-primary);
+        .side-nav-item:hover {
+            background: #f2f3f5;
+            color: #165dff;
         }
         
-        .stat-value.primary {
-            color: var(--primary);
+        .side-nav-item.active {
+            background: #e8f3ff;
+            color: #165dff;
         }
         
-        .stat-value.success {
-            color: var(--success);
-        }
-        
-        .stat-trend {
-            font-size: 12px;
-            margin-top: 8px;
-        }
-        
-        .stat-trend.up {
-            color: var(--success);
-        }
-        
-        .stat-trend.down {
-            color: var(--danger);
-        }
-        
-        /* 时间线 */
-        .timeline {
-            display: flex;
+        /* 帮助提示 */
+        .help-tip {
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #c9cdd4;
+            color: #fff;
+            font-size: 10px;
+            cursor: help;
+            margin-left: 4px;
         }
         
-        .timeline-item {
-            padding: 4px 12px;
-            background: var(--bg-page);
+        .help-tip:hover {
+            background: #86909c;
+        }
+        
+        /* 日历图标 */
+        .date-range {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .date-range svg {
+            width: 14px;
+            height: 14px;
+            color: #86909c;
+        }
+        
+        /* 多选下拉 */
+        .multi-select {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .multi-select-trigger {
+            min-width: 200px;
+            height: 32px;
+            padding: 0 32px 0 12px;
+            border: 1px solid #e5e6eb;
             border-radius: 4px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .timeline-item.locked {
-            background: #FFF1F0;
-            color: var(--danger);
-            text-decoration: line-through;
-        }
-        
-        .timeline-item.active {
-            background: var(--primary-light);
-            color: var(--primary);
-            font-weight: 500;
-        }
-        
-        /* 进度条 */
-        .progress-bar {
-            height: 8px;
-            background: var(--bg-page);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        
-        /* Tab 切换 */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 16px;
-        }
-        
-        .tab-item {
-            padding: 12px 20px;
+            background: #fff;
             cursor: pointer;
+            display: flex;
+            align-items: center;
             font-size: 14px;
-            color: var(--text-secondary);
-            border-bottom: 2px solid transparent;
-            margin-bottom: -1px;
         }
         
-        .tab-item:hover {
-            color: var(--text-primary);
+        .multi-select-trigger:after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 4px solid transparent;
+            border-top-color: #86909c;
         }
         
-        .tab-item.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+        /* 数字徽标 */
+        .num-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 6px;
+            background: #f53f3f;
+            color: #fff;
+            border-radius: 9px;
+            font-size: 12px;
             font-weight: 500;
         }
         
-        /* 锁定期编辑 */
-        .lock-edit-list {
-            margin-bottom: 20px;
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
         }
         
-        .lock-edit-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg-page);
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background: #1f2329;
+            color: #fff;
+            font-size: 12px;
             border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
             margin-bottom: 8px;
         }
         
-        .lock-edit-dates {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-        
-        .lock-edit-date {
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        .lock-edit-status {
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        
-        .lock-edit-status.pending {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-        
-        .lock-edit-status.active {
-            background: #E6F7EE;
-            color: var(--success);
-        }
-        
-        .lock-edit-status.ended {
-            background: #F5F5F5;
-            color: var(--text-placeholder);
-        }
-        
-        /* 隐藏元素 */
-        .hidden {
-            display: none !important;
+        .tooltip:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* 响应式 */
         @media (max-width: 1200px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .side-nav {
+                display: none;
             }
         }
         
         @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .main-container {
+                padding: 16px;
             }
             
-            .toolbar {
+            .search-row {
                 flex-direction: column;
-                align-items: stretch;
             }
             
-            .nav-tabs {
-                display: none;
+            .search-item {
+                width: 100%;
+            }
+            
+            .search-input, .search-select {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="nav">
-        <div class="nav-left">
-            <div class="logo">政策平台</div>
-            <div class="nav-tabs">
-                <button class="nav-tab active" onclick="showPage('enroll')">报名管理</button>
-                <button class="nav-tab" onclick="showPage('calc')">核算管理</button>
-                <button class="nav-tab" onclick="showPage('dashboard')">达成看板</button>
-                <button class="nav-tab" onclick="showPage('marketing')">营销平台</button>
-            </div>
-        </div>
-        <div class="nav-right">
-            <span class="badge">P0</span>
-            <span style="font-size: 14px; color: var(--text-secondary);">T9833060-双11大促政策</span>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-logo">政策平台</div>
+        <div class="nav-breadcrumb">
+            <a href="#">政策管理</a>
+            <span>/</span>
+            <a href="#">政策列表</a>
+            <span>/</span>
+            政策详情
         </div>
     </nav>
     
-    <div class="page-container">
-        <!-- ==================== 报名管理页面 ==================== -->
-        <div id="page-enroll" class="page">
-            <div class="page-header">
-                <div class="breadcrumb">
-                    <a href="#">政策管理</a> / <a href="#">政策列表</a> / 双11闯关赛政策
-                </div>
-                <h1 class="page-title">客户报名信息</h1>
-                <p class="page-desc">支持批量设置、删除、编辑客户考核锁定期</p>
-            </div>
-            
-            <!-- 操作提示 -->
-            <div class="alert alert-info">
-                💡 <strong>锁定期说明</strong>：考核期内，客户消耗不计入发奖的一段时间周期。一段考核期内，可能存在不连续的多个锁定期。
-            </div>
-            
-            <!-- 工具栏 -->
-            <div class="toolbar">
-                <div class="toolbar-left">
-                    <div class="search-box">
-                        <span class="icon">🔍</span>
-                        <input type="text" placeholder="搜索快手ID / 客户名称">
-                    </div>
-                    <div class="filter-item">
-                        <span class="filter-label">考核期状态：</span>
-                        <select>
-                            <option>全部</option>
-                            <option>未开始</option>
-                            <option>进行中</option>
-                            <option>已结束</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <span class="filter-label">锁定期：</span>
-                        <select>
-                            <option>全部</option>
-                            <option>已设置</option>
-                            <option>未设置</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="toolbar-right">
-                    <button class="btn btn-outline" onclick="showModal('upload')">
-                        📤 批量设置锁定期
-                    </button>
-                    <button class="btn btn-outline" onclick="showModal('delete')">
-                        🗑️ 批量删除锁定期
-                    </button>
-                    <button class="btn btn-primary">
-                        📥 导出数据
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 数据表格 -->
-            <div class="card">
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox"></th>
-                                <th>快手ID</th>
-                                <th>客户名称</th>
-                                <th>销售</th>
-                                <th>考核期</th>
-                                <th style="background: #FFF1F0;">🔒 考核锁定期</th>
-                                <th>报名状态</th>
-                                <th>报名时间</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>123456789</td>
-                                <td>杭州某某科技有限公司</td>
-                                <td>张三</td>
-                                <td>2025/11/01 - 2025/11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 2025/11/11-11/13</span>
-                                    <span class="lock-period">🔒 2025/11/21-11/22</span>
-                                </td>
-                                <td><span class="tag tag-green">已报名</span></td>
-                                <td>2025/10/25 14:30</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>987654321</td>
-                                <td>北京某某传媒有限公司</td>
-                                <td>李四</td>
-                                <td>2025/11/01 - 2025/11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 2025/11/05-11/10</span>
-                                </td>
-                                <td><span class="tag tag-green">已报名</span></td>
-                                <td>2025/10/26 09:15</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>456789123</td>
-                                <td>上海某某电子商务</td>
-                                <td>王五</td>
-                                <td>2025/11/01 - 2025/11/30</td>
-                                <td style="color: var(--text-placeholder);">-</td>
-                                <td><span class="tag tag-green">已报名</span></td>
-                                <td>2025/10/27 16:45</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm" onclick="showModal('edit')">编辑锁定期</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>789123456</td>
-                                <td>广州某某贸易公司</td>
-                                <td>赵六</td>
-                                <td>2025/11/01 - 2025/11/30</td>
-                                <td style="color: var(--text-placeholder);">-</td>
-                                <td><span class="tag tag-orange">待审核</span></td>
-                                <td>2025/10/28 10:00</td>
-                                <td>
-                                    <span style="color: var(--text-placeholder); font-size: 12px;">报名成功后可编辑</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- 分页 -->
-                <div class="card-body">
-                    <div class="pagination">
-                        <div class="pagination-info">共 4 条记录，第 1/1 页</div>
-                        <button class="page-btn" disabled>‹</button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn" disabled>›</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ==================== 核算管理页面 ==================== -->
-        <div id="page-calc" class="page hidden">
-            <div class="page-header">
-                <div class="breadcrumb">
-                    <a href="#">政策管理</a> / <a href="#">核算管理</a> / 双11闯关赛政策
-                </div>
-                <h1 class="page-title">核算结果列表</h1>
-                <p class="page-desc">系统自动核算，锁定期内消耗不计入奖励计算</p>
-            </div>
-            
-            <!-- 统计卡片 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">核算客户数</div>
-                    <div class="stat-value">128</div>
-                    <div class="stat-trend up">↑ 12 较昨日</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">核算期总消耗</div>
-                    <div class="stat-value primary">¥ 2,456,789</div>
-                    <div class="stat-trend up">↑ 8.5%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">预估奖励总额</div>
-                    <div class="stat-value success">¥ 345,678</div>
-                    <div class="stat-trend up">↑ 15.2%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">锁定期影响客户</div>
-                    <div class="stat-value" style="color: var(--danger);">23</div>
-                    <div class="stat-trend">占比 18%</div>
-                </div>
-            </div>
-            
-            <!-- 工具栏 -->
-            <div class="toolbar">
-                <div class="toolbar-left">
-                    <div class="search-box">
-                        <span class="icon">🔍</span>
-                        <input type="text" placeholder="搜索快手ID / 客户名称">
-                    </div>
-                    <div class="filter-item">
-                        <span class="filter-label">核算日期：</span>
-                        <select>
-                            <option>2025-11-01</option>
-                            <option>2025-10-31</option>
-                            <option>2025-10-30</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="toolbar-right">
-                    <button class="btn btn-primary">📥 导出核算明细</button>
-                </div>
-            </div>
-            
-            <!-- 数据表格 -->
-            <div class="card">
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>快手ID</th>
-                                <th>客户名称</th>
-                                <th>核算周期</th>
-                                <th style="background: #FFF1F0;">🔒 锁定期</th>
-                                <th>基期消耗</th>
-                                <th>考核期消耗</th>
-                                <th>消耗涨幅</th>
-                                <th>预估奖励</th>
-                                <th>核算状态</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>123456789</td>
-                                <td>杭州某某科技有限公司</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 11/11-13</span>
-                                    <span class="lock-period">🔒 11/21-22</span>
-                                </td>
-                                <td class="text-right">¥ 156,000</td>
-                                <td class="text-right">¥ 189,500</td>
-                                <td class="text-right" style="color: var(--success);">+21.5%</td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 23,450</td>
-                                <td><span class="tag tag-green">已核算</span></td>
-                            </tr>
-                            <tr>
-                                <td>987654321</td>
-                                <td>北京某某传媒有限公司</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 11/05-10</span>
-                                </td>
-                                <td class="text-right">¥ 234,000</td>
-                                <td class="text-right">¥ 267,800</td>
-                                <td class="text-right" style="color: var(--success);">+14.4%</td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 31,200</td>
-                                <td><span class="tag tag-green">已核算</span></td>
-                            </tr>
-                            <tr>
-                                <td>456789123</td>
-                                <td>上海某某电子商务</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td style="color: var(--text-placeholder);">-</td>
-                                <td class="text-right">¥ 89,000</td>
-                                <td class="text-right">¥ 102,300</td>
-                                <td class="text-right" style="color: var(--success);">+14.9%</td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 12,150</td>
-                                <td><span class="tag tag-green">已核算</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ==================== 达成看板页面 ==================== -->
-        <div id="page-dashboard" class="page hidden">
-            <div class="page-header">
-                <div class="breadcrumb">
-                    <a href="#">政策管理</a> / <a href="#">达成看板</a> / 双11闯关赛政策
-                </div>
-                <h1 class="page-title">客户达成监控</h1>
-                <p class="page-desc">实时监控客户达成进度，锁定期内进度暂停统计</p>
-            </div>
-            
-            <!-- Tab 切换 -->
-            <div class="tabs">
-                <div class="tab-item active">已报名用户</div>
-                <div class="tab-item">未报名用户</div>
-                <div class="tab-item">客户视角</div>
-            </div>
-            
-            <!-- 统计卡片 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">已报名客户</div>
-                    <div class="stat-value primary">128</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">总消耗（剔除锁定期）</div>
-                    <div class="stat-value">¥ 4,567,890</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">平均涨幅</div>
-                    <div class="stat-value success">+18.6%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">预估奖励总额</div>
-                    <div class="stat-value">¥ 567,890</div>
-                </div>
-            </div>
-            
-            <!-- 工具栏 -->
-            <div class="toolbar">
-                <div class="toolbar-left">
-                    <div class="search-box">
-                        <span class="icon">🔍</span>
-                        <input type="text" placeholder="搜索快手ID / 客户名称">
-                    </div>
-                    <div class="filter-item">
-                        <span class="filter-label">达成状态：</span>
-                        <select>
-                            <option>全部</option>
-                            <option>已达成</option>
-                            <option>进行中</option>
-                            <option>未达成</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="toolbar-right">
-                    <button class="btn btn-primary">📥 导出数据</button>
-                </div>
-            </div>
-            
-            <!-- 数据表格 -->
-            <div class="card">
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>快手ID</th>
-                                <th>客户名称</th>
-                                <th>考核期</th>
-                                <th style="background: #FFF1F0;">🔒 考核锁定期</th>
-                                <th>活动结束时间</th>
-                                <th>考核期消耗</th>
-                                <th>达成进度</th>
-                                <th>预估奖励</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>123456789</td>
-                                <td>杭州某某科技有限公司</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 11/11-13</span>
-                                    <span class="lock-period">🔒 11/21-22</span>
-                                </td>
-                                <td>2025/11/30</td>
-                                <td class="text-right">¥ 189,500</td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="progress-bar" style="width: 100px;">
-                                            <div class="progress-fill" style="width: 78%;"></div>
-                                        </div>
-                                        <span style="font-size: 12px;">78%</span>
-                                    </div>
-                                </td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 23,450</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm">查看详情</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>987654321</td>
-                                <td>北京某某传媒有限公司</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td>
-                                    <span class="lock-period">🔒 11/05-10</span>
-                                </td>
-                                <td>2025/11/30</td>
-                                <td class="text-right">¥ 267,800</td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="progress-bar" style="width: 100px;">
-                                            <div class="progress-fill" style="width: 92%; background: var(--success);"></div>
-                                        </div>
-                                        <span style="font-size: 12px; color: var(--success); font-weight: 500;">92%</span>
-                                    </div>
-                                </td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 31,200</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm">查看详情</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>456789123</td>
-                                <td>上海某某电子商务</td>
-                                <td>2025/11/01 - 11/30</td>
-                                <td style="color: var(--text-placeholder);">-</td>
-                                <td>2025/11/30</td>
-                                <td class="text-right">¥ 102,300</td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div class="progress-bar" style="width: 100px;">
-                                            <div class="progress-fill" style="width: 45%;"></div>
-                                        </div>
-                                        <span style="font-size: 12px;">45%</span>
-                                    </div>
-                                </td>
-                                <td class="text-right" style="color: var(--primary); font-weight: 500;">¥ 12,150</td>
-                                <td>
-                                    <button class="btn btn-text btn-sm">查看详情</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ==================== 营销平台页面 ==================== -->
-        <div id="page-marketing" class="page hidden">
-            <div class="page-header">
-                <div class="breadcrumb">
-                    <a href="#">营销平台</a> / <a href="#">我的活动</a> / 双11闯关赛
-                </div>
-                <h1 class="page-title">活动详情</h1>
-                <p class="page-desc">面向客户的营销平台展示页面</p>
-            </div>
-            
-            <!-- 活动卡片 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🎉 双11金牛闯关赛</h3>
-                    <span class="tag tag-green">进行中</span>
-                </div>
-                <div class="card-body">
-                    <!-- 考核时间（含锁定期提示） -->
-                    <div class="alert alert-warning" style="margin-bottom: 24px;">
-                        <strong>📌 考核时间：共计 28 天 | 2025/11/01-2025/11/30</strong><br>
-                        <span style="color: var(--danger);">🔒 消耗锁定期共 3 天，对应消耗不计入本活动（11/11-11/13）</span>
-                    </div>
-                    
-                    <!-- 时间线展示 -->
-                    <div style="margin-bottom: 24px;">
-                        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">考核期时间线：</div>
-                        <div class="timeline">
-                            <div class="timeline-item">11/01</div>
-                            <div class="timeline-item">11/02</div>
-                            <div class="timeline-item">...</div>
-                            <div class="timeline-item locked">11/11</div>
-                            <div class="timeline-item locked">11/12</div>
-                            <div class="timeline-item locked">11/13</div>
-                            <div class="timeline-item">11/14</div>
-                            <div class="timeline-item active">11/15</div>
-                            <div class="timeline-item">...</div>
-                            <div class="timeline-item">11/30</div>
-                        </div>
-                        <div style="font-size: 12px; color: var(--text-placeholder); margin-top: 8px;">
-                            <span style="background: #FFF1F0; padding: 2px 6px; border-radius: 2px;">划线日期</span> 为锁定期，消耗不计入活动
-                        </div>
-                    </div>
-                    
-                    <!-- 数据展示 -->
-                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
-                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
-                            <div class="stat-label">考核期消耗（剔除锁定期）</div>
-                            <div class="stat-value primary">¥ 189,500</div>
-                        </div>
-                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
-                            <div class="stat-label">达成进度</div>
-                            <div class="stat-value success">78%</div>
-                        </div>
-                        <div class="stat-card" style="box-shadow: none; border: 1px solid var(--border);">
-                            <div class="stat-label">预估奖励</div>
-                            <div class="stat-value">¥ 23,450</div>
-                        </div>
-                    </div>
-                    
-                    <!-- 进度条 -->
-                    <div style="margin-top: 24px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px;">奖励达成进度</span>
-                            <span style="font-size: 14px; color: var(--primary); font-weight: 500;">¥ 189,500 / ¥ 243,000</span>
-                        </div>
-                        <div class="progress-bar" style="height: 16px;">
-                            <div class="progress-fill" style="width: 78%;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
-                            <span>当前档位：第二档</span>
-                            <span>距离下一档还需：¥ 53,500</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 消息通知示例 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📬 消息中心</h3>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-info" style="margin-bottom: 0;">
-                        <strong>活动变动提醒</strong><br>
-                        因您在 2025-11-11 至 2025-11-13 参与其他活动，该时间段消耗不计入【双11金牛闯关赛】，其他时间段不受影响，如有疑问请咨询销售。
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- 右侧导航 -->
+    <div class="side-nav">
+        <a href="#customer-info" class="side-nav-item active">客户报名信息</a>
+        <a href="#batch-lock" class="side-nav-item">批量设置锁定期</a>
+        <a href="#single-edit" class="side-nav-item">单客户编辑</a>
+        <a href="#calc-result" class="side-nav-item">核算结果</a>
+        <a href="#dashboard" class="side-nav-item">达成发放看板</a>
     </div>
     
-    <!-- ==================== 弹窗：批量设置锁定期 ==================== -->
-    <div id="modal-upload" class="modal-overlay hidden">
-        <div class="modal" style="width: 600px;">
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1 class="page-title">双11大促政策 - 金牛闯关赛</h1>
+            <p class="page-subtitle">政策ID: T9833060 | 状态: 进行中 | 考核期: 2024/11/01 - 2024/11/30</p>
+        </div>
+        
+        <!-- Tab 导航 -->
+        <div class="card">
+            <div class="tabs-container">
+                <div class="tabs">
+                    <div class="tab-item active">客户报名信息<span class="badge">156</span></div>
+                    <div class="tab-item">活动规则信息</div>
+                    <div class="tab-item">核算信息</div>
+                </div>
+            </div>
+            
+            <!-- 搜索区域 -->
+            <div class="search-area">
+                <div class="search-row">
+                    <div class="search-item">
+                        <label class="search-label">政策ID</label>
+                        <input type="text" class="search-input" placeholder="请输入政策ID">
+                    </div>
+                    <div class="search-item">
+                        <label class="search-label">快手ID</label>
+                        <input type="text" class="search-input" placeholder="请输入快手ID">
+                    </div>
+                    <div class="search-item">
+                        <label class="search-label">报名状态</label>
+                        <select class="search-select">
+                            <option>全部</option>
+                            <option>报名成功</option>
+                            <option>待审核</option>
+                            <option>已取消</option>
+                        </select>
+                    </div>
+                    <div class="search-item">
+                        <label class="search-label">锁定期状态</label>
+                        <select class="search-select">
+                            <option>全部</option>
+                            <option>已设置锁定期</option>
+                            <option>未设置锁定期</option>
+                            <option>锁定期生效中</option>
+                        </select>
+                    </div>
+                    <div class="search-item">
+                        <button class="btn btn-primary">查询</button>
+                    </div>
+                    <div class="search-item">
+                        <button class="btn btn-secondary">重置</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 操作栏 -->
+            <div class="action-bar">
+                <div class="action-bar-left">
+                    <button class="btn btn-primary" onclick="showModal('batchLockModal')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        批量设置考核锁定期
+                    </button>
+                    <button class="btn btn-outline" onclick="showModal('batchDeleteModal')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                        </svg>
+                        批量删除锁定期
+                    </button>
+                    <button class="btn btn-secondary">批量修改</button>
+                </div>
+                <div class="action-bar-right">
+                    <button class="btn btn-secondary">下载数据</button>
+                </div>
+            </div>
+            
+            <!-- 数据表格 -->
+            <div class="table-container" id="customer-info">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="table-checkbox"></th>
+                            <th>快手ID</th>
+                            <th>客户名称</th>
+                            <th>报名状态</th>
+                            <th>报名粒度</th>
+                            <th>考核期</th>
+                            <th>考核锁定期<span class="help-tip" title="考核期内不计入消耗的时间段">?</span></th>
+                            <th>基期消耗(元)</th>
+                            <th>促期消耗(元)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="table-checkbox"></td>
+                            <td><a href="#" class="link">123456789</a></td>
+                            <td>客户A</td>
+                            <td><span class="status-tag status-success">报名成功</span></td>
+                            <td>快手ID粒度</td>
+                            <td>
+                                <div class="date-range">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    2024/11/01 - 2024/11/30
+                                </div>
+                            </td>
+                            <td>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/11 - 2024/11/13
+                                </div>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/21 - 2024/11/22
+                                </div>
+                            </td>
+                            <td>125,680</td>
+                            <td>158,920</td>
+                            <td>
+                                <button class="btn btn-text" onclick="showModal('editLockModal')">编辑锁定期</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="table-checkbox"></td>
+                            <td><a href="#" class="link">234567890</a></td>
+                            <td>客户B</td>
+                            <td><span class="status-tag status-success">报名成功</span></td>
+                            <td>快手ID粒度</td>
+                            <td>
+                                <div class="date-range">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    2024/11/01 - 2024/11/30
+                                </div>
+                            </td>
+                            <td>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/15 - 2024/11/18
+                                </div>
+                            </td>
+                            <td>89,450</td>
+                            <td>112,380</td>
+                            <td>
+                                <button class="btn btn-text" onclick="showModal('editLockModal')">编辑锁定期</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="table-checkbox"></td>
+                            <td><a href="#" class="link">345678901</a></td>
+                            <td>客户C</td>
+                            <td><span class="status-tag status-success">报名成功</span></td>
+                            <td>快手ID粒度</td>
+                            <td>
+                                <div class="date-range">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    2024/11/01 - 2024/11/30
+                                </div>
+                            </td>
+                            <td>
+                                <span style="color: #86909c;">-</span>
+                            </td>
+                            <td>56,230</td>
+                            <td>78,950</td>
+                            <td>
+                                <button class="btn btn-text" style="color: #c9cdd4; cursor: not-allowed;">编辑锁定期</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="table-checkbox"></td>
+                            <td><a href="#" class="link">456789012</a></td>
+                            <td>客户D</td>
+                            <td><span class="status-tag status-warning">待审核</span></td>
+                            <td>快手ID粒度</td>
+                            <td>
+                                <div class="date-range">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    2024/11/01 - 2024/11/30
+                                </div>
+                            </td>
+                            <td>
+                                <span style="color: #86909c;">-</span>
+                            </td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-text" style="color: #c9cdd4; cursor: not-allowed;">编辑锁定期</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="pagination">
+                <div class="pagination-info">共 156 条记录，每页 10 条</div>
+                <div class="pagination-btns">
+                    <button class="page-btn" disabled>&lt;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">...</button>
+                    <button class="page-btn">16</button>
+                    <button class="page-btn">&gt;</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 核算结果列表示例 -->
+        <h2 style="font-size: 16px; font-weight: 600; margin: 24px 0 16px;" id="calc-result">核算结果列表</h2>
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>核算批次</th>
+                            <th>快手ID</th>
+                            <th>核算周期</th>
+                            <th>考核锁定期</th>
+                            <th>基期消耗(元)</th>
+                            <th>促期消耗(元)</th>
+                            <th>奖励金额(元)</th>
+                            <th>核算状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024112501</td>
+                            <td><a href="#" class="link">123456789</a></td>
+                            <td>2024/11/01 - 2024/11/25</td>
+                            <td>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/11 - 2024/11/13
+                                </div>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/21 - 2024/11/22
+                                </div>
+                            </td>
+                            <td>125,680</td>
+                            <td>145,230</td>
+                            <td>8,750</td>
+                            <td><span class="status-tag status-success">已核算</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 达成发放看板示例 -->
+        <h2 style="font-size: 16px; font-weight: 600; margin: 24px 0 16px;" id="dashboard">达成发放看板 - 客户达成监控</h2>
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>快手ID</th>
+                            <th>客户名称</th>
+                            <th>活动结束时间</th>
+                            <th>考核锁定期</th>
+                            <th>主目标口径消耗</th>
+                            <th>考核期消耗</th>
+                            <th>达成进度</th>
+                            <th>预估奖励</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#" class="link">123456789</a></td>
+                            <td>客户A</td>
+                            <td>2024/11/30</td>
+                            <td>
+                                <div class="lock-period-tag">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                    2024/11/11 - 2024/11/13
+                                </div>
+                            </td>
+                            <td>158,920</td>
+                            <td>158,920</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; height: 6px; background: #f2f3f5; border-radius: 3px; overflow: hidden;">
+                                        <div style="width: 78%; height: 100%; background: #165dff;"></div>
+                                    </div>
+                                    <span style="font-size: 12px; color: #86909c;">78%</span>
+                                </div>
+                            </td>
+                            <td>12,500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 批量设置锁定期弹窗 -->
+    <div class="modal-overlay" id="batchLockModal">
+        <div class="modal" style="max-width: 700px;">
             <div class="modal-header">
                 <h3 class="modal-title">批量设置考核锁定期</h3>
-                <button class="modal-close" onclick="hideModal()">&times;</button>
+                <button class="modal-close" onclick="hideModal('batchLockModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-info">
-                    💡 仅政策创建人可操作，支持设置未来日期的锁定期，且需在考核期范围内。
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">操作类型<span class="required">*</span></label>
-                    <div style="display: flex; gap: 16px;">
-                        <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
-                            <input type="radio" name="opType" checked> 新增锁定期
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
-                            <input type="radio" name="opType"> 删除锁定期
-                        </label>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">设置规则</div>
+                        <div>• 仅报名成功的客户可设置锁定期</div>
+                        <div>• 锁定期需在考核期范围内</div>
+                        <div>• 锁定期开始时间需晚于当前时间</div>
+                        <div>• 单次上传明细不超过2000条</div>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">上传 Excel 文件<span class="required">*</span></label>
-                    <div class="upload-area" onclick="document.getElementById('file-input').click()">
-                        <div class="upload-icon">📁</div>
-                        <div class="upload-text">
-                            点击或拖拽文件到此处上传<br>
-                            <strong>支持 .xlsx, .xls 格式</strong>
-                        </div>
+                <div class="upload-area">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17,8 12,3 7,8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
                     </div>
-                    <input type="file" id="file-input" style="display: none;">
-                    <div class="form-hint">
-                        模板字段：快手ID、锁定期开始时间、锁定期结束时间<br>
-                        时间格式：yyyymmdd（如 20251111）<br>
-                        单次上传明细数量 ≤ 2000 条
-                    </div>
+                    <div class="upload-text">点击或拖拽文件到此区域上传</div>
+                    <div class="upload-hint">支持 .xlsx, .xls 格式，单次最多2000条</div>
                 </div>
                 
-                <div class="form-group">
-                    <button class="btn btn-outline btn-sm">📥 下载模板</button>
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <button class="btn btn-text">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        下载上传模板
+                    </button>
+                </div>
+                
+                <!-- 校验结果示例 -->
+                <div class="validation-result" style="background: #fff7e8; border: 1px solid #ffcf8e;">
+                    <div class="result-header">
+                        <svg class="result-icon error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        <span class="result-text" style="color: #ff7d00;">上传成功 3 条，失败 2 条</span>
+                    </div>
+                    <div style="background: #fff; border-radius: 4px; padding: 12px; margin-top: 12px;">
+                        <div style="font-weight: 500; margin-bottom: 8px; color: #f53f3f;">失败明细：</div>
+                        <table style="font-size: 13px; width: 100%;">
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">快手ID</td>
+                                <td style="padding: 4px 0;">345678901</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">锁定期</td>
+                                <td style="padding: 4px 0;">2024/11/05 - 2024/11/10</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">失败原因</td>
+                                <td style="padding: 4px 0; color: #f53f3f;">该快手ID下原锁定期与新增锁定期有重合</td>
+                            </tr>
+                        </table>
+                        <hr style="border: none; border-top: 1px solid #f2f3f5; margin: 12px 0;">
+                        <table style="font-size: 13px; width: 100%;">
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">快手ID</td>
+                                <td style="padding: 4px 0;">456789012</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">锁定期</td>
+                                <td style="padding: 4px 0;">2024/11/01 - 2024/11/30</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 0; color: #86909c;">失败原因</td>
+                                <td style="padding: 4px 0; color: #f53f3f;">新增该锁定期则考核期失效，建议直接取消该快手ID报名</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="hideModal()">取消</button>
+                <button class="btn btn-secondary" onclick="hideModal('batchLockModal')">取消</button>
                 <button class="btn btn-primary">确认上传</button>
             </div>
         </div>
     </div>
     
-    <!-- ==================== 弹窗：编辑锁定期 ==================== -->
-    <div id="modal-edit" class="modal-overlay hidden">
-        <div class="modal" style="width: 550px;">
+    <!-- 单客户编辑锁定期弹窗 -->
+    <div class="modal-overlay" id="editLockModal">
+        <div class="modal" style="max-width: 600px;">
             <div class="modal-header">
-                <h3 class="modal-title">编辑考核锁定期</h3>
-                <button class="modal-close" onclick="hideModal()">&times;</button>
+                <h3 class="modal-title">编辑锁定期 - 123456789</h3>
+                <button class="modal-close" onclick="hideModal('editLockModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
             <div class="modal-body">
-                <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-page); border-radius: 4px;">
-                    <div style="font-size: 12px; color: var(--text-secondary);">快手ID</div>
-                    <div style="font-size: 16px; font-weight: 500;">123456789</div>
-                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">杭州某某科技有限公司</div>
-                </div>
-                
-                <div style="margin-bottom: 16px;">
-                    <div style="font-size: 14px; font-weight: 500; margin-bottom: 12px;">已设置的锁定期：</div>
-                    <div class="lock-edit-list">
-                        <div class="lock-edit-item">
-                            <div class="lock-edit-dates">
-                                <input type="date" class="lock-edit-date" value="2025-11-11">
-                                <span>至</span>
-                                <input type="date" class="lock-edit-date" value="2025-11-13">
-                            </div>
-                            <span class="lock-edit-status pending">未生效</span>
-                            <button class="btn btn-text btn-sm" style="color: var(--danger);">删除</button>
-                        </div>
-                        <div class="lock-edit-item">
-                            <div class="lock-edit-dates">
-                                <input type="date" class="lock-edit-date" value="2025-11-21">
-                                <span>至</span>
-                                <input type="date" class="lock-edit-date" value="2025-11-22">
-                            </div>
-                            <span class="lock-edit-status pending">未生效</span>
-                            <button class="btn btn-text btn-sm" style="color: var(--danger);">删除</button>
-                        </div>
+                <div class="alert alert-info">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div>
+                        <div>• 锁定期已生效（开始时间早于当前时间）不可删除</div>
+                        <div>• 锁定期已开始未结束时，可修改结束时间</div>
                     </div>
                 </div>
                 
-                <button class="btn btn-outline" style="width: 100%;">
-                    ➕ 新增锁定期
-                </button>
+                <div style="font-weight: 500; margin-bottom: 12px;">已设置的锁定期</div>
                 
-                <div class="alert alert-warning" style="margin-top: 16px;">
-                    ⚠️ 校验规则：
-                    <ul style="margin: 8px 0 0 20px; font-size: 12px;">
-                        <li>开始时间需晚于当前时间</li>
-                        <li>时间范围需在考核期内（2025/11/01 - 11/30）</li>
-                        <li>同一客户多个锁定期不可交叉</li>
-                    </ul>
+                <div class="lock-period-list">
+                    <div class="lock-period-item">
+                        <div class="lock-period-info">
+                            <div class="lock-period-dates">2024/11/11 - 2024/11/13</div>
+                            <span class="status-tag status-default">已结束</span>
+                        </div>
+                        <div class="lock-period-actions">
+                            <button class="btn btn-text" disabled style="color: #c9cdd4;">删除</button>
+                            <button class="btn btn-text" disabled style="color: #c9cdd4;">修改</button>
+                        </div>
+                    </div>
+                    
+                    <div class="lock-period-item">
+                        <div class="lock-period-info">
+                            <div class="lock-period-dates">2024/11/21 - 2024/11/22</div>
+                            <span class="status-tag status-warning">已开始未结束</span>
+                        </div>
+                        <div class="lock-period-actions">
+                            <button class="btn btn-text" disabled style="color: #c9cdd4;">删除</button>
+                            <button class="btn btn-text" onclick="showModal('modifyLockModal')">修改</button>
+                        </div>
+                    </div>
+                    
+                    <div class="lock-period-item">
+                        <div class="lock-period-info">
+                            <div class="lock-period-dates">2024/11/25 - 2024/11/27</div>
+                            <span class="status-tag status-blue">未生效</span>
+                        </div>
+                        <div class="lock-period-actions">
+                            <button class="btn btn-text" style="color: #f53f3f;" onclick="showModal('deleteConfirmModal')">删除</button>
+                            <button class="btn btn-text" onclick="showModal('modifyLockModal')">修改</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="hideModal()">取消</button>
-                <button class="btn btn-primary">保存修改</button>
+                <button class="btn btn-secondary" onclick="hideModal('editLockModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 修改锁定期弹窗 -->
+    <div class="modal-overlay" id="modifyLockModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">修改锁定期</h3>
+                <button class="modal-close" onclick="hideModal('modifyLockModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search-item" style="margin-bottom: 16px;">
+                    <label class="search-label">开始时间</label>
+                    <input type="date" class="search-input" value="2024-11-21" style="width: 100%;">
+                </div>
+                <div class="search-item">
+                    <label class="search-label">结束时间</label>
+                    <input type="date" class="search-input" value="2024-11-22" style="width: 100%;">
+                </div>
+                <div class="alert alert-warning" style="margin-top: 16px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div>锁定期已开始，仅可修改结束时间</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideModal('modifyLockModal')">取消</button>
+                <button class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 删除确认弹窗 -->
+    <div class="modal-overlay" id="deleteConfirmModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">删除锁定期</h3>
+                <button class="modal-close" onclick="hideModal('deleteConfirmModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 20px 0;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff7d00" stroke-width="2" style="margin-bottom: 16px;">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <div style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">确定删除该锁定期吗？</div>
+                    <div style="color: #86909c; font-size: 14px;">2024/11/25 - 2024/11/27</div>
+                    <div style="color: #86909c; font-size: 13px; margin-top: 8px;">删除后，该时间段的消耗将计入考核</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideModal('deleteConfirmModal')">取消</button>
+                <button class="btn btn-danger">确定删除</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 批量删除弹窗 -->
+    <div class="modal-overlay" id="batchDeleteModal">
+        <div class="modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 class="modal-title">批量删除锁定期</h3>
+                <button class="modal-close" onclick="hideModal('batchDeleteModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <div>
+                        <div style="font-weight: 500; margin-bottom: 4px;">删除规则</div>
+                        <div>• 仅已设置锁定期的客户可删除</div>
+                        <div>• 删除的锁定期需与设置信息完全一致</div>
+                        <div>• 已生效的锁定期不可删除</div>
+                    </div>
+                </div>
+                
+                <div class="upload-area">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17,8 12,3 7,8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <div class="upload-text">点击或拖拽文件到此区域上传</div>
+                    <div class="upload-hint">支持 .xlsx, .xls 格式，单次最多2000条</div>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <button class="btn btn-text">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        下载删除模板
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideModal('batchDeleteModal')">取消</button>
+                <button class="btn btn-danger">确认删除</button>
             </div>
         </div>
     </div>
     
     <script>
-        // 页面切换
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            document.getElementById('page-' + pageId).classList.remove('hidden');
-            
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        
         // 弹窗控制
-        function showModal(modalId) {
-            document.getElementById('modal-' + modalId).classList.remove('hidden');
+        function showModal(id) {
+            document.getElementById(id).classList.add('show');
         }
         
-        function hideModal() {
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+        function hideModal(id) {
+            document.getElementById(id).classList.remove('show');
         }
         
         // 点击遮罩关闭弹窗
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hideModal();
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('show');
                 }
+            });
+        });
+        
+        // Tab 切换
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // 右侧导航高亮
+        document.querySelectorAll('.side-nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                document.querySelectorAll('.side-nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // 文件上传区域交互
+        document.querySelectorAll('.upload-area').forEach(area => {
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#165dff';
+                area.style.background = '#f7faff';
+            });
+            
+            area.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#c9cdd4';
+                area.style.background = '#fff';
+            });
+            
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#c9cdd4';
+                area.style.background = '#fff';
+                // 模拟上传成功
+                alert('文件上传成功！');
             });
         });
     </script>
