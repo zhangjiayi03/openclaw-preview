@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝宝购物记录 - 原型预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        .prototype-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            border: 10px solid #1a1a1a;
+        }
+        
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #f7f7f7;
+            overflow-y: auto;
+            padding-top: 40px;
+        }
+        
+        .screen-title {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+        
+        /* 首页样式 */
+        .home-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #fff;
+        }
+        
+        .home-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .home-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .stats-cards {
+            padding: 15px 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .stat-card.blue {
+            background: linear-gradient(135deg, #4ECDC4 0%, #6EE7DE 100%);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .stat-compare {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #fff;
+            height: 100%;
+            border-radius: 4px;
+            width: 65%;
+        }
+        
+        .record-section {
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .record-list {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .record-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .record-item:last-child {
+            border-bottom: none;
+        }
+        
+        .record-icon {
+            width: 44px;
+            height: 44px;
+            background: #FFF5F5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .record-info {
+            flex: 1;
+        }
+        
+        .record-name {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .record-meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .record-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #FF6B6B;
+        }
+        
+        .upload-btn {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            color: #fff;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            cursor: pointer;
+        }
+        
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 25px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .tab-item {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .tab-item.active {
+            color: #FF6B6B;
+        }
+        
+        .tab-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        /* 记账页样式 */
+        .tab-switch {
+            display: flex;
+            background: #fff;
+            margin: 0 20px;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: #666;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .tab-btn.active {
+            background: #FF6B6B;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .platform-select {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            overflow-x: auto;
+        }
+        
+        .platform-tag {
+            padding: 8px 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .upload-area {
+            margin: 0 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            border: 2px dashed #ddd;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .tips-card {
+            margin: 20px;
+            background: #FFF9F0;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .tips-title {
+            font-size: 14px;
+            color: #F5A623;
+            margin-bottom: 8px;
+        }
+        
+        .tips-list {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* 统计页样式 */
+        .time-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 20px;
+            background: #fff;
+        }
+        
+        .time-tab {
+            padding: 8px 20px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .time-tab.active {
+            background: #FF6B6B;
+            color: #fff;
+        }
+        
+        .total-card {
+            margin: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .total-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .total-value {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .total-meta {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .chart-card {
+            margin: 15px 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .chart-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .pie-chart::before {
+            content: '45%';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .category-list {
+            margin-top: 20px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .category-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .category-name {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .category-percent {
+            font-size: 14px;
+            color: #999;
+            margin-right: 15px;
+        }
+        
+        .category-bar {
+            width: 80px;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .category-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        
+        /* 宝宝页样式 */
+        .baby-card {
+            margin: 15px 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .baby-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        
+        .baby-info {
+            flex: 1;
+        }
+        
+        .baby-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .baby-age {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .baby-total {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FF6B6B;
+            margin-top: 6px;
+        }
+        
+        .baby-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .baby-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .add-baby-btn {
+            display: block;
+            width: calc(100% - 40px);
+            margin: 0 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px dashed #ddd;
+            border-radius: 16px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .compare-chart {
+            margin: 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .compare-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .compare-item {
+            margin-bottom: 15px;
+        }
+        
+        .compare-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .compare-bar {
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .compare-fill {
+            height: 100%;
+            border-radius: 6px;
+        }
+        
+        /* 设置页样式 */
+        .user-card {
+            margin: 15px 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .user-id {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .menu-section {
+            margin: 15px 20px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .menu-title {
+            padding: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .menu-label {
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .menu-value {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .menu-arrow {
+            color: #ccc;
+            margin-left: 8px;
+        }
+        
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #4ECDC4;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* 识别结果页 */
+        .success-badge {
+            background: #E8F8F5;
+            color: #27AE60;
+            padding: 10px 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .screenshot-preview {
+            margin: 15px 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .result-card {
+            margin: 15px 20px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .result-title {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .result-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .ai-category {
+            margin: 15px 20px;
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFE8E8 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 4px solid #FF6B6B;
+        }
+        
+        .ai-title {
+            font-size: 14px;
+            color: #FF6B6B;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .ai-result {
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-icon {
+            font-size: 28px;
+            margin-right: 12px;
+        }
+        
+        .ai-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .ai-sub {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .confirm-btn {
+            display: block;
+            width: calc(100% - 40px);
+            margin: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        /* 页面标签 */
+        .page-label {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1>👶 宝宝购物记录 - 原型预览</h1>
+    <p class="subtitle">低保真原型设计 v1.0 | 2026-03-26</p>
+    
+    <div class="prototype-container">
+        <!-- 首页 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">👶 宝宝购物记录</div>
+                        <div class="home-icons">
+                            <div class="icon-btn">⚙️</div>
+                            <div class="icon-btn">🔔</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <div class="stat-label">💰 今日花费</div>
+                            <div class="stat-value">¥328.50</div>
+                            <div class="stat-compare">环比昨日 ↓12%</div>
+                        </div>
+                        
+                        <div class="stat-card blue">
+                            <div class="stat-label">📊 本月花费</div>
+                            <div class="stat-value">¥2,458</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="stat-compare">预算 ¥4,000 | 还剩 ¥1,542</div>
+                        </div>
+                    </div>
+                    
+                    <div class="record-section">
+                        <div class="section-title">📋 最近记录</div>
+                        <div class="record-list">
+                            <div class="record-item">
+                                <div class="record-icon">🍼</div>
+                                <div class="record-info">
+                                    <div class="record-name">飞鹤奶粉 3段</div>
+                                    <div class="record-meta">喂养用品 · 淘宝 · 今天</div>
+                                </div>
+                                <div class="record-price">¥368</div>
+                            </div>
+                            <div class="record-item">
+                                <div class="record-icon">🧴</div>
+                                <div class="record-info">
+                                    <div class="record-name">帮宝适纸尿裤</div>
+                                    <div class="record-meta">护理用品 · 京东 · 昨天</div>
+                                </div>
+                                <div class="record-price">¥189</div>
+                            </div>
+                            <div class="record-item">
+                                <div class="record-icon">👕</div>
+                                <div class="record-info">
+                                    <div class="record-name">婴儿连体衣 59cm</div>
+                                    <div class="record-meta">服装鞋帽 · 拼多多 · 前天</div>
+                                </div>
+                                <div class="record-price">¥128</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="upload-btn">📸 记一笔</button>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item active">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">首页</div>
+        </div>
+        
+        <!-- 记账页 - 上传截图 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">📸 记一笔</div>
+                    </div>
+                    
+                    <div class="tab-switch">
+                        <button class="tab-btn active">📸 截图识别</button>
+                        <button class="tab-btn">📝 手动添加</button>
+                    </div>
+                    
+                    <div style="padding: 10px 20px; color: #999; font-size: 13px;">选择平台（可选）</div>
+                    <div class="platform-select">
+                        <div class="platform-tag">淘宝</div>
+                        <div class="platform-tag">京东</div>
+                        <div class="platform-tag">拼多多</div>
+                        <div class="platform-tag">抖音</div>
+                    </div>
+                    
+                    <div class="upload-area">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">点击上传订单截图</div>
+                        <div class="upload-hint">或粘贴剪贴板图片</div>
+                    </div>
+                    
+                    <div class="tips-card">
+                        <div class="tips-title">💡 小技巧</div>
+                        <div class="tips-list">
+                            • 在订单详情页截图，识别更准确<br>
+                            • 包含商品名、价格、时间即可<br>
+                            • 敏感信息会自动马赛克
+                        </div>
+                    </div>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item active">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">记账页 - 上传截图</div>
+        </div>
+        
+        <!-- 记账页 - 识别结果 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">📸 记一笔</div>
+                    </div>
+                    
+                    <div class="success-badge">✅ 识别成功</div>
+                    
+                    <div class="screenshot-preview">
+                        [订单截图（已脱敏）]
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">识别结果</div>
+                        <div class="result-row">
+                            <span class="result-label">商品名称</span>
+                            <span class="result-value">飞鹤奶粉 3段 800g*3罐</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">数量 × 单价</span>
+                            <span class="result-value">1 × ¥368.00</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">总金额</span>
+                            <span class="result-value" style="color: #FF6B6B; font-weight: 600;">¥368.00</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">平台</span>
+                            <span class="result-value">淘宝</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">下单时间</span>
+                            <span class="result-value">2026-03-26 14:30</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-category">
+                        <div class="ai-title">🤖 AI 智能分类</div>
+                        <div class="ai-result">
+                            <div class="ai-icon">🍼</div>
+                            <div>
+                                <div class="ai-text">喂养用品 - 奶粉</div>
+                                <div class="ai-sub">[修改分类 →]</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 15px 20px;">
+                        <div style="font-size: 14px; color: #666; margin-bottom: 8px;">宝宝档案（可选）</div>
+                        <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <span>👶 小宝</span>
+                            <span style="color: #999;">▼</span>
+                        </div>
+                    </div>
+                    
+                    <button class="confirm-btn">✓ 确认保存</button>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item active">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">记账页 - 识别结果</div>
+        </div>
+        
+        <!-- 统计页 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">📊 统计分析</div>
+                    </div>
+                    
+                    <div class="time-tabs">
+                        <button class="time-tab">日</button>
+                        <button class="time-tab">周</button>
+                        <button class="time-tab active">月</button>
+                        <button class="time-tab">年</button>
+                    </div>
+                    
+                    <div class="total-card">
+                        <div class="total-label">本月总花费</div>
+                        <div class="total-value">¥2,458</div>
+                        <div class="total-meta">环比上月 ↑15% | 日均 ¥81.93</div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-title">🍩 类别占比</div>
+                        <div class="pie-chart" style="background: conic-gradient(#FF6B6B 0deg 162deg, #4ECDC4 162deg 270deg, #FFD93D 270deg 324deg, #6BCB77 324deg 360deg); border-radius: 50%;"></div>
+                        <div class="category-list">
+                            <div class="category-item">
+                                <div class="category-icon">🍼</div>
+                                <div class="category-name">喂养用品</div>
+                                <div class="category-percent">45%</div>
+                                <div class="category-bar">
+                                    <div class="category-bar-fill" style="width: 90%; background: #FF6B6B;"></div>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">🧴</div>
+                                <div class="category-name">护理用品</div>
+                                <div class="category-percent">30%</div>
+                                <div class="category-bar">
+                                    <div class="category-bar-fill" style="width: 60%; background: #4ECDC4;"></div>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">👕</div>
+                                <div class="category-name">服装鞋帽</div>
+                                <div class="category-percent">15%</div>
+                                <div class="category-bar">
+                                    <div class="category-bar-fill" style="width: 30%; background: #FFD93D;"></div>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon">🧸</div>
+                                <div class="category-name">玩具娱乐</div>
+                                <div class="category-percent">10%</div>
+                                <div class="category-bar">
+                                    <div class="category-bar-fill" style="width: 20%; background: #6BCB77;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button style="display: block; width: calc(100% - 40px); margin: 0 20px 20px; padding: 15px; background: #fff; border: 1px solid #ddd; border-radius: 12px; color: #666; font-size: 14px;">📤 导出报告</button>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item active">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">统计页</div>
+        </div>
+        
+        <!-- 宝宝页 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">👶 宝宝档案</div>
+                    </div>
+                    
+                    <div class="baby-card">
+                        <div class="baby-avatar">👶</div>
+                        <div class="baby-info">
+                            <div class="baby-name">小宝</div>
+                            <div class="baby-age">1岁3个月</div>
+                            <div class="baby-total">¥15,680</div>
+                        </div>
+                        <div class="baby-actions">
+                            <button class="baby-btn">切换</button>
+                            <button class="baby-btn">编辑</button>
+                        </div>
+                    </div>
+                    
+                    <div class="baby-card">
+                        <div class="baby-avatar" style="background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%);">👶</div>
+                        <div class="baby-info">
+                            <div class="baby-name">二宝</div>
+                            <div class="baby-age">3个月</div>
+                            <div class="baby-total">¥5,280</div>
+                        </div>
+                        <div class="baby-actions">
+                            <button class="baby-btn">切换</button>
+                            <button class="baby-btn">编辑</button>
+                        </div>
+                    </div>
+                    
+                    <button class="add-baby-btn">+ 添加宝宝</button>
+                    
+                    <div class="compare-chart">
+                        <div class="compare-title">📊 宝宝花费对比</div>
+                        <div class="compare-item">
+                            <div class="compare-label">
+                                <span>👶 小宝</span>
+                                <span style="color: #FF6B6B; font-weight: 600;">¥15.6k</span>
+                            </div>
+                            <div class="compare-bar">
+                                <div class="compare-fill" style="width: 100%; background: linear-gradient(90deg, #FF6B6B, #FF8E8E);"></div>
+                            </div>
+                        </div>
+                        <div class="compare-item">
+                            <div class="compare-label">
+                                <span>👶 二宝</span>
+                                <span style="color: #4ECDC4; font-weight: 600;">¥5.2k</span>
+                            </div>
+                            <div class="compare-bar">
+                                <div class="compare-fill" style="width: 33%; background: linear-gradient(90deg, #4ECDC4, #6EE7DE);"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item active">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">宝宝页</div>
+        </div>
+        
+        <!-- 我的页 -->
+        <div>
+            <div class="phone-frame">
+                <div class="screen">
+                    <div class="home-header">
+                        <div class="home-title">👤 我的</div>
+                    </div>
+                    
+                    <div class="user-card">
+                        <div class="user-avatar"></div>
+                        <div>
+                            <div class="user-name">张佳祎</div>
+                            <div class="user-id">ID: 88888</div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <div class="menu-title">👨‍👩‍👧 家庭成员</div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">👤</div>
+                                <div class="menu-label">王小明</div>
+                            </div>
+                            <div class="menu-value">成员</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">➕</div>
+                                <div class="menu-label">邀请配偶</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <div class="menu-title">💵 预算设置</div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">💰</div>
+                                <div class="menu-label">月度预算</div>
+                            </div>
+                            <div class="menu-value">¥4,000</div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">📂</div>
+                                <div class="menu-label">分类预算</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <div class="menu-title">🔔 提醒设置</div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">⚠️</div>
+                                <div class="menu-label">预算超支提醒</div>
+                            </div>
+                            <div class="toggle"></div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">⏰</div>
+                                <div class="menu-label">记账提醒</div>
+                            </div>
+                            <div class="menu-value">每天 20:00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <div class="menu-title">🔒 隐私设置</div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">🔐</div>
+                                <div class="menu-label">隐私模式</div>
+                            </div>
+                            <div class="toggle"></div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-left">
+                                <div class="menu-icon">🗑️</div>
+                                <div class="menu-label">清除所有数据</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-bar">
+                        <div class="tab-item">
+                            <div class="tab-icon">🏠</div>
+                            <div>首页</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📝</div>
+                            <div>记账</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">📊</div>
+                            <div>统计</div>
+                        </div>
+                        <div class="tab-item">
+                            <div class="tab-icon">👶</div>
+                            <div>宝宝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-label">我的页</div>
+        </div>
+    </div>
+</body>
+</html>
