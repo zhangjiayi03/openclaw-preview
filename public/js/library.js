@@ -15,7 +15,7 @@ fetch('/api/settings').then(r => r.json()).then(s => {
 }).catch(() => {});
 
 const TAG_COLORS = ['#c0584a','#d98a3f','#b5a642','#5a8a4a','#3f7a8a','#6a5a8a','#a04a7a','#7a6a5a'];
-function escapeHtml(s) { return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function escapeHtml(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 async function load() {
   const [b, t] = await Promise.all([api('/api/books'), api('/api/tags')]);
@@ -79,6 +79,7 @@ function render() {
   empty.style.display = showEmpty && all === 0 ? 'block' : 'none';
   tagHint.style.display = showEmpty && all > 0 ? 'block' : 'none';
   grid.style.display = showEmpty ? 'none' : 'grid';
+  dropzone.classList.toggle('compact', all > 0);
   grid.innerHTML = arr.map((b, i) => `
     <div class="book" data-id="${b.id}" style="animation-delay:${Math.min(i * 30, 400)}ms">
       <div class="cover">
@@ -316,13 +317,53 @@ const uploadBtn = document.getElementById('uploadBtn');
 function uploadFiles(files) {
   const list = [...files].filter(f => /\.(txt|pdf|epub)$/i.test(f.name));
   if (!list.length) return toast('请选择 TXT / PDF / EPUB 文件');
-  toast(`正在上传 ${list.length} 本…`, 4000);
-  Promise.all(list.map(f => {
+  showUploadOverlay(list);
+  let done = 0;
+  Promise.all(list.map((f, idx) => new Promise((resolve, reject) => {
     const fd = new FormData(); fd.append('file', f);
-    return fetch('/api/books/upload', { method: 'POST', body: fd })
-      .then(r => r.ok ? r.json() : Promise.reject(new Error('上传失败')));
-  })).then(() => { toast('上传完成'); load(); })
-    .catch(e => toast(e.message, 3000));
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/books/upload');
+    xhr.upload.onprogress = e => {
+      if (e.lengthComputable) updateUploadProgress(idx, Math.round(e.loaded / e.total * 100));
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) { done++; updateUploadCount(done, list.length); resolve(); }
+      else reject(new Error(`${f.name} 上传失败`));
+    };
+    xhr.onerror = () => reject(new Error(`${f.name} 网络错误`));
+    xhr.send(fd);
+  }))).then(() => { hideUploadOverlay(); toast(`上传完成，共 ${list.length} 本`); load(); })
+    .catch(e => { hideUploadOverlay(); toast(e.message, 4000); });
+}
+
+// 上传进度浮层
+function showUploadOverlay(files) {
+  let el = document.getElementById('uploadOverlay');
+  if (!el) {
+    el = document.createElement('div'); el.id = 'uploadOverlay'; el.className = 'up-ov';
+    el.innerHTML = '<div class="up-box"><div class="up-title">上传中…</div><div class="up-list"></div><div class="up-count"></div></div>';
+    document.body.appendChild(el);
+  }
+  const listEl = el.querySelector('.up-list');
+  listEl.innerHTML = files.map((f, i) =>
+    `<div class="up-item" data-i="${i}"><span class="up-name">${escapeHtml(f.name)}</span><span class="up-pct">0%</span><div class="up-bar"><i style="width:0%"></i></div></div>`
+  ).join('');
+  el.querySelector('.up-count').textContent = `0 / ${files.length}`;
+  el.classList.add('show');
+}
+function updateUploadProgress(idx, pct) {
+  const el = document.querySelector(`.up-item[data-i="${idx}"]`);
+  if (!el) return;
+  el.querySelector('.up-pct').textContent = pct + '%';
+  el.querySelector('.up-bar i').style.width = pct + '%';
+}
+function updateUploadCount(done, total) {
+  const el = document.getElementById('uploadOverlay');
+  if (el) el.querySelector('.up-count').textContent = `${done} / ${total}`;
+}
+function hideUploadOverlay() {
+  const el = document.getElementById('uploadOverlay');
+  if (el) el.classList.remove('show');
 }
 fileInput.addEventListener('change', e => uploadFiles(e.target.files));
 uploadBtn.addEventListener('click', () => fileInput.click());
