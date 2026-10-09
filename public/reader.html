@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>阅读</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="theme-light">
+
+<div id="reader">
+  <!-- 顶栏 -->
+  <div class="reader-bar">
+    <button class="ic-btn" id="btnBack" title="返回书架 (Esc)"></button>
+    <span class="title" id="rTitle">加载中…</span>
+    <span class="spacer"></span>
+    <span class="pill" id="rFmt"></span>
+    <button class="ic-btn" id="btnToc" title="目录"></button>
+    <button class="ic-btn" id="btnBm" title="书签 (B)"></button>
+    <button class="ic-btn" id="btnNotes" title="笔记"></button>
+    <button class="ic-btn" id="btnSet" title="设置"></button>
+    <button class="ic-btn" id="btnFull" title="全屏沉浸 (F)"></button>
+  </div>
+
+  <div class="reader-stage" id="stage">
+    <!-- 左侧目录 -->
+    <aside class="side" id="tocSide">
+      <div class="side-h"><h3>目录</h3><button class="ic-btn" data-close="toc"></button></div>
+      <div id="tocList" class="list-empty">正在生成…</div>
+    </aside>
+
+    <!-- 右侧笔记/书签 -->
+    <aside class="side right" id="noteSide">
+      <div class="side-h"><h3 id="noteHead">笔记</h3><button class="ic-btn" data-close="note"></button></div>
+      <div class="side-tabs">
+        <button data-tab="notes" class="on">笔记 <span id="noteCount"></span></button>
+        <button data-tab="bookmarks">书签 <span id="bmCount"></span></button>
+      </div>
+      <div id="notesList"></div>
+      <div id="bmList" style="display:none"></div>
+    </aside>
+
+    <!-- 阅读视口 -->
+    <div class="viewport" id="viewport">
+      <div class="page-wrap" id="pageWrap">
+        <div id="txtView" class="txt-view" style="display:none"></div>
+        <div id="pdfView" style="display:none"></div>
+        <div id="epubView" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- TXT 翻页器 -->
+    <div class="txt-pager" id="txtPager" style="display:none">
+      <button id="prevPage" title="上一页 (←)"></button>
+      <input type="range" id="pageRange" min="1" max="1" value="1">
+      <span class="pos" id="pagePos">1 / 1</span>
+      <button id="nextPage" title="下一页 (→)"></button>
+    </div>
+
+    <!-- 选区浮窗 -->
+    <div class="sel-pop" id="selPop">
+      <button data-act="hl" style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:#f5d76e"></span>划线</button>
+      <button data-act="note" class="note-btn" style="display:flex;align-items:center;gap:6px">📝 笔记</button>
+      <button data-act="copy" style="display:flex;align-items:center;gap:6px">📋 复制</button>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="sheet" id="setSheet">
+      <div class="mask" data-close="set"></div>
+      <div class="panel">
+        <h3>阅读设置</h3>
+        <div class="set-row">
+          <label>字号 <span class="val" id="fsVal">20px</span></label>
+          <div class="range"><input type="range" id="fontSize" min="14" max="30" step="1" value="20"></div>
+        </div>
+        <div class="set-row">
+          <label>行距 <span class="val" id="lhVal">1.9</span></label>
+          <div class="range"><input type="range" id="lineHeight" min="1.4" max="2.4" step="0.1" value="1.9"></div>
+        </div>
+        <div class="set-row">
+          <label>主题</label>
+          <div class="theme-grid">
+            <button data-theme="light" style="background:#f8f5ef"></button>
+            <button data-theme="sepia" style="background:#f4ecd8"></button>
+            <button data-theme="green" style="background:#e8ead7"></button>
+            <button data-theme="dark" style="background:#1b1a19"></button>
+          </div>
+        </div>
+        <div class="set-row" id="fontRow">
+          <label>字体</label>
+          <div class="font-grid">
+            <button data-font="serif">衬线</button>
+            <button data-font="sans">无衬线</button>
+          </div>
+        </div>
+        <div class="set-row" id="widthRow">
+          <label>页面宽度 <span class="val" id="pwVal">760</span></label>
+          <div class="range"><input type="range" id="pageWidth" min="560" max="1000" step="20" value="760"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 笔记编辑弹窗 -->
+    <div class="modal" id="noteModal">
+      <div class="mask" data-close="modal"></div>
+      <div class="box">
+        <h3>添加笔记</h3>
+        <div class="quote" id="noteQuote"></div>
+        <div class="note-editor">
+          <textarea id="noteText" placeholder="写下你的想法…"></textarea>
+        </div>
+        <div class="color-row" id="colorRow">
+          <button data-color="yellow" style="background:#f5d76e" class="on"></button>
+          <button data-color="green" style="background:#b6e38c"></button>
+          <button data-color="blue" style="background:#9cd1f0"></button>
+          <button data-color="pink" style="background:#f0a9c9"></button>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+          <button class="btn ghost" data-close="modal">取消</button>
+          <button class="btn" id="saveNote">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="kbhint" id="kbhint">← → 翻页 · B 书签 · F 全屏 · S 设置 · T 目录</div>
+
+<script src="/js/lib.js"></script>
+<script src="/lib/jszip.min.js"></script>
+<script src="/lib/epub.min.js"></script>
+<script src="/lib/pdf.min.js"></script>
+<script src="/js/reader.js"></script>
+</body>
+</html>

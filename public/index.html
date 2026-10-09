@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的书库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark">书</span><span>我的书库</span></div>
+    <div class="spacer"></div>
+    <div class="search-box">
+      <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="search" placeholder="搜索书名…">
+    </div>
+    <button class="btn" id="uploadBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M5 11l7-7 7 7"/><path d="M5 20h14"/></svg>
+      上传书籍
+    </button>
+  </header>
+
+  <main class="shell">
+    <div class="page-head">
+      <div>
+        <h1>书架</h1>
+        <p id="stat">共 0 本书 · 阅读 0 分钟</p>
+      </div>
+      <div class="sort-bar">
+        <button class="chip active" data-sort="recent">最近阅读</button>
+        <button class="chip" data-sort="name">书名</button>
+        <button class="chip" data-sort="added">添加时间</button>
+        <button class="chip" data-sort="progress">进度</button>
+      </div>
+    </div>
+
+    <div class="tag-bar" id="tagBar" style="display:none">
+      <button class="tag-chip active" data-tag="">全部</button>
+      <span class="tag-list" id="tagList"></span>
+      <button class="tag-manage" id="tagManageBtn" title="管理标签">标签管理</button>
+    </div>
+    <div class="tag-empty-hint" id="tagHint" style="display:none">没有书籍匹配所选标签</div>
+
+    <!-- 继续阅读 -->
+    <div class="continue" id="continue" style="display:none">
+      <div class="continue-h">
+        <h2>继续阅读</h2>
+        <span class="continue-more" id="continueMore"></span>
+      </div>
+      <div class="continue-row" id="continueRow"></div>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <div class="big">📚</div>
+      <h3>拖拽书籍到这里，或点击选择</h3>
+      <p>支持 TXT / PDF / EPUB · 单文件最大 200MB</p>
+      <input id="fileInput" type="file" accept=".txt,.pdf,.epub" multiple>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">
+      <div class="big">📖</div>
+      <p>书架空空如也，上传你的第一本书吧</p>
+    </div>
+  </main>
+
+  <input type="file" id="hiddenInput" accept=".txt,.pdf,.epub" multiple style="display:none">
+  <div class="toast" id="toast"></div>
+
+  <!-- 书籍标签编辑弹窗 -->
+  <div class="modal" id="tagModal">
+    <div class="mask" data-close="tagModal"></div>
+    <div class="box tag-box">
+      <h3>编辑标签</h3>
+      <p class="tag-book-title" id="tagBookTitle"></p>
+      <div class="tag-pick" id="tagPick"></div>
+      <div class="tag-new-row">
+        <span class="swatch" id="newTagColor" style="background:#c0584a"></span>
+        <input id="newTagName" type="text" placeholder="新标签名" maxlength="12">
+        <button class="btn ghost" id="newTagPalette">选色</button>
+        <button class="btn" id="newTagAdd">新建</button>
+      </div>
+      <div class="tag-palette" id="tagPalette" style="display:none"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+        <button class="btn ghost" data-close="tagModal">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 标签管理弹窗 -->
+  <div class="modal" id="tagManageModal">
+    <div class="mask" data-close="tagManageModal"></div>
+    <div class="box tag-box">
+      <h3>标签管理</h3>
+      <div class="tag-mng-list" id="tagMngList"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+        <button class="btn ghost" data-close="tagManageModal">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 书籍详情弹窗 -->
+  <div class="modal" id="bookDetailModal">
+    <div class="mask" data-close="bookDetailModal"></div>
+    <div class="box detail-box">
+      <div class="detail-head">
+        <div class="detail-cover" id="detailCover"></div>
+        <div class="detail-meta">
+          <input class="detail-title" id="detailTitle">
+          <input class="detail-author" id="detailAuthor" placeholder="作者">
+          <div class="detail-tags" id="detailTags"></div>
+        </div>
+      </div>
+      <div class="detail-stats" id="detailStats"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
+        <button class="btn ghost" id="detailRead">开始阅读</button>
+        <button class="btn" id="detailSave">保存修改</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/lib.js"></script>
+  <script src="/js/library.js"></script>
+</body>
+</html>
