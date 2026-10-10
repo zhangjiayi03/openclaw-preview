@@ -100,9 +100,9 @@ try {
 const q = {
   // books
   insertBook: (b) => pool.query(
-    `INSERT INTO books (id,title,author,filename,format,size,cover,total_pages,file_data,created_at,updated_at)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
-    [b.id, b.title, b.author, b.filename, b.format, b.size, b.cover, b.total_pages, b.file_data, b.created_at, b.updated_at]
+    `INSERT INTO books (id,title,author,filename,format,size,cover,total_pages,file_data,cover_data,created_at,updated_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+    [b.id, b.title, b.author, b.filename, b.format, b.size, b.cover, b.total_pages, b.file_data, b.cover_data, b.created_at, b.updated_at]
   ),
   getBook: (id) => pool.query(`SELECT * FROM books WHERE id=$1`, [id]).then(r => r.rows[0] || null),
   listBooks: () => pool.query(
