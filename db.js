@@ -3,15 +3,24 @@ import pg from 'pg';
 const { Pool } = pg;
 
 const dbUrl = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
+console.log('DEBUG 可用变量:', Object.keys(process.env).filter(k => k.includes('DATABASE') || k.includes('PG') || k.includes('RAILWAY_TCP')));
+console.log('DEBUG 连接串前缀:', dbUrl ? dbUrl.slice(0, 30) + '...' : '(空)');
 if (!dbUrl) {
-  console.error('❌ DATABASE_URL 环境变量未设置！请在 Railway 中添加 PostgreSQL 服务并确保变量已注入。');
+  console.error('❌ 没有找到数据库连接变量！请设置 DATABASE_PUBLIC_URL 或 DATABASE_URL');
   process.exit(1);
 }
 
-const pool = new Pool({
-  connectionString: dbUrl,
-  ssl: { rejectUnauthorized: false },
-});
+let pool;
+try {
+  pool = new Pool({
+    connectionString: dbUrl,
+    ssl: { rejectUnauthorized: false },
+  });
+} catch (e) {
+  console.error('❌ Pool 创建失败:', e.message);
+  console.error('   连接串格式可能有误，请确认格式为 postgresql://user:pass@host:port/db');
+  process.exit(1);
+}
 
 // 建表
 const initSQL = `
