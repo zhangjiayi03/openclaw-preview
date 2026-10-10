@@ -2,9 +2,14 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
+if (!process.env.DATABASE_URL) {
+  console.error('❌ DATABASE_URL 环境变量未设置！请在 Railway 中添加 PostgreSQL 服务并确保变量已注入。');
+  process.exit(1);
+}
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('railway') ? { rejectUnauthorized: false } : undefined,
+  ssl: { rejectUnauthorized: false },
 });
 
 // 建表
@@ -72,7 +77,14 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 `;
 
-await pool.query(initSQL);
+try {
+  await pool.query(initSQL);
+  console.log('✅ 数据库表初始化完成');
+} catch (e) {
+  console.error('❌ 数据库初始化失败:', e.message);
+  console.error('   DATABASE_URL:', process.env.DATABASE_URL ? '已设置(隐藏)' : '未设置');
+  throw e;
+}
 
 // 封装查询工具
 const q = {
