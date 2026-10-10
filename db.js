@@ -2,13 +2,14 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
-if (!process.env.DATABASE_URL) {
+const dbUrl = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
+if (!dbUrl) {
   console.error('❌ DATABASE_URL 环境变量未设置！请在 Railway 中添加 PostgreSQL 服务并确保变量已注入。');
   process.exit(1);
 }
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: dbUrl,
   ssl: { rejectUnauthorized: false },
 });
 
