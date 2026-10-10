@@ -38,17 +38,27 @@ function titleFromName(filename) {
   return base.replace(/[_]+/g, ' ').trim() || '未命名';
 }
 
-// 从 EPUB 提取元数据文本
-async function extractEpubMetaText(buf) {
+// 从 EPUB 提取封面和标题/作者
+async function extractEpubMeta(buf) {
+  const result = { metaText: '', cover: null, title: null, author: null };
   try {
     const zip = await JSZip.loadAsync(buf);
     const container = await zip.file('META-INF/container.xml')?.async('string');
-    if (!container) return '';
+    if (!container) return result;
     const m = container.match(/full-path="([^"]+)"/);
-    if (!m) return '';
+    if (!m) return result;
     const opfPath = m[1];
+    const opfDir = opfPath.includes('/') ? opfPath.replace(/[^/]*$/, '') : '';
     const opf = await zip.file(opfPath)?.async('string');
-    if (!opf) return '';
+    if (!opf) return result;
+
+    // 提取 title 和 author
+    const titleM = opf.match(/<dc:title[^>]*>([\s\S]*?)<\/dc:title>/i);
+    if (titleM) result.title = titleM[1].replace(/<[^>]+>/g, '').trim();
+    const authorM = opf.match(/<dc:creator[^>]*>([\s\S]*?)<\/dc:creator>/i);
+    if (authorM) result.author = authorM[1].replace(/<[^>]+>/g, '').trim();
+
+    // 元数据文本（用于标签推断）
     const parts = [];
     const tags = ['title', 'creator', 'subject', 'description', 'language'];
     for (const tag of tags) {
@@ -56,8 +66,48 @@ async function extractEpubMetaText(buf) {
       let mm;
       while ((mm = re.exec(opf)) !== null) parts.push(mm[1].replace(/<[^>]+>/g, ''));
     }
-    return parts.join(' ');
-  } catch { return ''; }
+    result.metaText = parts.join(' ');
+
+    // 提取封面：优先 properties=cover-image，其次 meta name=cover -> item id，最后 href 含 cover 的图片
+    let coverHref = null;
+    // 方法1: properties=cover-image（顺序无关）
+    if (!coverHref) {
+      const propItemM = opf.match(/<item[^>]*properties=["'][^"']*cover-image[^"']*["'][^>]*\/?>/i);
+      if (propItemM) {
+        const hrefM = propItemM[0].match(/href=["']([^"']+)["']/i);
+        if (hrefM) coverHref = hrefM[1];
+      }
+    }
+    // 方法2: meta cover 指向 item id
+    if (!coverHref) {
+      const metaCoverM = opf.match(/<meta[^>]+name=["']cover["'][^>]+content=["']([^"']+)["']/i);
+      if (metaCoverM) {
+        const itemId = metaCoverM[1];
+        const itemM = opf.match(new RegExp(`<item[^>]+id=["']${itemId}["'][^>]*\/?>`, 'i'));
+        if (itemM) {
+          const hrefM = itemM[0].match(/href=["']([^"']+)["']/i);
+          if (hrefM) coverHref = hrefM[1];
+        }
+      }
+    }
+    // 方法3: media-type 是图片且 href 含 cover
+    if (!coverHref) {
+      const itemM = opf.match(/<item[^>]*media-type=["']image[^"']*["'][^>]*\/?>/i);
+      if (itemM) {
+        const hrefM = itemM[0].match(/href=["']([^"']*cover[^"']*)["']/i);
+        if (hrefM) coverHref = hrefM[1];
+      }
+    }
+    if (coverHref) {
+      const coverPath = opfDir + coverHref;
+      const coverFile = zip.file(coverPath) || zip.file(coverHref);
+      if (coverFile) {
+        const coverBuf = await coverFile.async('arraybuffer');
+        result.cover = Buffer.from(coverBuf);
+      }
+    }
+  } catch {}
+  return result;
 }
 
 // 为一本书应用推断出的标签
@@ -83,17 +133,27 @@ app.post('/api/books/upload', upload.single('file'), async (req, res) => {
   const now = Date.now();
   const fileBuf = req.file.buffer;
 
-  // 推断标签
+  // 推断标签 + 提取封面/元数据
   let metaText = '';
+  let coverBuf = null;
+  let bookTitle = titleFromName(originalName);
+  let bookAuthor = '';
   try {
-    if (format === 'epub') metaText = await extractEpubMetaText(fileBuf);
+    if (format === 'epub') {
+      const meta = await extractEpubMeta(fileBuf);
+      metaText = meta.metaText;
+      coverBuf = meta.cover;
+      if (meta.title) bookTitle = meta.title;
+      if (meta.author) bookAuthor = meta.author;
+    }
   } catch {}
   const tagNames = inferTagNames(`${originalName} ${metaText}`);
 
   await stmts.insertBook({
-    id, title: titleFromName(originalName), author: '',
+    id, title: bookTitle, author: bookAuthor,
     filename: originalName, format, size: req.file.size,
-    cover: '', total_pages: 0, file_data: fileBuf,
+    cover: coverBuf ? 'auto' : '', total_pages: 0, file_data: fileBuf,
+    cover_data: coverBuf,
     created_at: now, updated_at: now,
   });
   await applyAutoTags(id, tagNames);
