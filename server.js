@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { randomUUID } from 'crypto';
+import { randomUUID, timingSafeEqual } from 'crypto';
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'fs';
 import { join, extname } from 'path';
 import { fileURLToPath } from 'url';
@@ -15,6 +15,33 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '5mb' }));
+
+// ===== 访问保护（HTTP Basic Auth，保护全部页面与接口）=====
+const APP_USER = process.env.APP_USER || 'reader';
+const APP_PASS = process.env.APP_PASSWORD || '';
+if (!APP_PASS) {
+  console.warn('⚠️  未设置 APP_PASSWORD，站点当前无访问保护（仅建议本地调试使用）');
+}
+function safeEqual(a, b) {
+  const ba = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ba.length !== bb.length) return false;
+  return timingSafeEqual(ba, bb);
+}
+app.use((req, res, next) => {
+  if (!APP_PASS) return next();
+  const header = req.headers.authorization || '';
+  const [scheme, encoded] = header.split(' ');
+  if (scheme === 'Basic' && encoded) {
+    const decoded = Buffer.from(encoded, 'base64').toString('utf8');
+    const idx = decoded.indexOf(':');
+    const user = idx >= 0 ? decoded.slice(0, idx) : decoded;
+    const pass = idx >= 0 ? decoded.slice(idx + 1) : '';
+    if (safeEqual(user, APP_USER) && safeEqual(pass, APP_PASS)) return next();
+  }
+  res.setHeader('WWW-Authenticate', 'Basic realm="My Library"');
+  res.status(401).send('需要登录');
+});
 
 // 上传使用内存存储（文件存数据库，不写磁盘）
 const upload = multer({
@@ -62,7 +89,7 @@ async function extractEpubMeta(buf) {
     const parts = [];
     const tags = ['title', 'creator', 'subject', 'description', 'language'];
     for (const tag of tags) {
-      const re = new RegExp(`<dc:${tag}[^>]*>([\\s\\S]*?)<\/dc:${tag}>`, 'gi');
+      const re = new RegExp(`<dc:${tag}[^>]*>([\\s\\S]*?)<\\/dc:${tag}>`, 'gi');
       let mm;
       while ((mm = re.exec(opf)) !== null) parts.push(mm[1].replace(/<[^>]+>/g, ''));
     }
@@ -83,7 +110,7 @@ async function extractEpubMeta(buf) {
       const metaCoverM = opf.match(/<meta[^>]+name=["']cover["'][^>]+content=["']([^"']+)["']/i);
       if (metaCoverM) {
         const itemId = metaCoverM[1];
-        const itemM = opf.match(new RegExp(`<item[^>]+id=["']${itemId}["'][^>]*\/?>`, 'i'));
+        const itemM = opf.match(new RegExp(`<item[^>]+id=["']${itemId}["'][^>]*/?>`, 'i'));
         if (itemM) {
           const hrefM = itemM[0].match(/href=["']([^"']+)["']/i);
           if (hrefM) coverHref = hrefM[1];
