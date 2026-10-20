@@ -1,1093 +1,583 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>政策详情 - 客户报名信息</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: #f5f5f5;
-            font-size: 14px;
-            color: #333;
-        }
-        
-        /* 顶部导航 */
-        .top-nav {
-            background: #fff;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            padding: 0 24px;
-            border-bottom: 1px solid #e8e8e8;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .breadcrumb {
-            color: #999;
-            font-size: 14px;
-        }
-        
-        .breadcrumb a {
-            color: #666;
-            text-decoration: none;
-        }
-        
-        .breadcrumb a:hover {
-            color: #FF6A00;
-        }
-        
-        .breadcrumb span {
-            margin: 0 8px;
-        }
-        
-        /* 主内容区 */
-        .main-content {
-            padding: 16px 24px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-        
-        /* 政策标题 */
-        .policy-header {
-            background: #fff;
-            padding: 16px 24px;
-            border-radius: 4px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .policy-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .policy-id {
-            color: #999;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        
-        .policy-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .status-tag {
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
-        .status-tag.running {
-            background: #E6F7FF;
-            color: #1890FF;
-            border: 1px solid #91D5FF;
-        }
-        
-        /* Tab 导航 */
-        .tab-nav {
-            background: #fff;
-            border-radius: 4px 4px 0 0;
-            border-bottom: 1px solid #e8e8e8;
-            display: flex;
-        }
-        
-        .tab-item {
-            padding: 16px 24px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            color: #666;
-            transition: all 0.3s;
-        }
-        
-        .tab-item:hover {
-            color: #FF6A00;
-        }
-        
-        .tab-item.active {
-            color: #FF6A00;
-            border-bottom-color: #FF6A00;
-            font-weight: 500;
-        }
-        
-        /* 内容卡片 */
-        .content-card {
-            background: #fff;
-            border-radius: 0 0 4px 4px;
-            padding: 24px;
-        }
-        
-        /* 筛选条件 */
-        .filter-section {
-            background: #FAFAFA;
-            padding: 16px;
-            border-radius: 4px;
-            margin-bottom: 16px;
-        }
-        
-        .filter-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            align-items: flex-end;
-        }
-        
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .filter-item label {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .filter-item input,
-        .filter-item select {
-            height: 32px;
-            padding: 4px 12px;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-            font-size: 14px;
-            min-width: 160px;
-        }
-        
-        .filter-item input:focus,
-        .filter-item select:focus {
-            border-color: #FF6A00;
-            outline: none;
-        }
-        
-        .filter-actions {
-            display: flex;
-            gap: 8px;
-            margin-left: auto;
-        }
-        
-        .btn {
-            height: 32px;
-            padding: 0 16px;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-            background: #fff;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            border-color: #FF6A00;
-            color: #FF6A00;
-        }
-        
-        .btn-primary {
-            background: #FF6A00;
-            border-color: #FF6A00;
-            color: #fff;
-        }
-        
-        .btn-primary:hover {
-            background: #FF8533;
-            border-color: #FF8533;
-            color: #fff;
-        }
-        
-        .btn-orange {
-            background: #FFF7E6;
-            border-color: #FFD591;
-            color: #FF6A00;
-        }
-        
-        .btn-orange:hover {
-            background: #FFECD0;
-            border-color: #FFB366;
-        }
-        
-        /* 操作按钮组 */
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .action-left {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .action-right {
-            display: flex;
-            gap: 8px;
-        }
-        
-        /* 表格 */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #e8e8e8;
-        }
-        
-        .data-table th {
-            background: #FAFAFA;
-            padding: 12px 16px;
-            text-align: left;
-            font-weight: 500;
-            color: #333;
-            border-bottom: 1px solid #e8e8e8;
-            white-space: nowrap;
-        }
-        
-        .data-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #666;
-        }
-        
-        .data-table tr:hover {
-            background: #FAFAFA;
-        }
-        
-        .data-table .text-center {
-            text-align: center;
-        }
-        
-        /* 锁定期标签 */
-        .lock-period-tags {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .lock-tag {
-            display: inline-flex;
-            align-items: center;
-            background: #FFF7E6;
-            border: 1px solid #FFD591;
-            color: #FF6A00;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            width: fit-content;
-        }
-        
-        .lock-tag.locked {
-            background: #FF6A00;
-            border-color: #FF6A00;
-            color: #fff;
-        }
-        
-        /* 状态标签 */
-        .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
-        .tag-success {
-            background: #F6FFED;
-            color: #52C41A;
-            border: 1px solid #B7EB8F;
-        }
-        
-        .tag-warning {
-            background: #FFFBE6;
-            color: #FAAD14;
-            border: 1px solid #FFE58F;
-        }
-        
-        .tag-error {
-            background: #FFF1F0;
-            color: #FF4D4F;
-            border: 1px solid #FFA39E;
-        }
-        
-        /* 操作链接 */
-        .action-link {
-            color: #FF6A00;
-            cursor: pointer;
-            margin-right: 16px;
-        }
-        
-        .action-link:hover {
-            text-decoration: underline;
-        }
-        
-        .action-link.disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-        
-        /* 分页 */
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 16px 0;
-            gap: 8px;
-        }
-        
-        .pagination-info {
-            color: #999;
-            font-size: 12px;
-            margin-right: 16px;
-        }
-        
-        .page-btn {
-            min-width: 32px;
-            height: 32px;
-            border: 1px solid #d9d9d9;
-            background: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .page-btn:hover {
-            border-color: #FF6A00;
-            color: #FF6A00;
-        }
-        
-        .page-btn.active {
-            background: #FF6A00;
-            border-color: #FF6A00;
-            color: #fff;
-        }
-        
-        /* 弹窗 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal-overlay.show {
-            display: flex;
-        }
-        
-        .modal {
-            background: #fff;
-            border-radius: 8px;
-            width: 680px;
-            max-height: 80vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .modal-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid #e8e8e8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 16px;
-            font-weight: 500;
-        }
-        
-        .modal-close {
-            cursor: pointer;
-            font-size: 20px;
-            color: #999;
-        }
-        
-        .modal-close:hover {
-            color: #333;
-        }
-        
-        .modal-body {
-            padding: 24px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid #e8e8e8;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-        
-        /* 上传区域 */
-        .upload-area {
-            border: 1px dashed #d9d9d9;
-            border-radius: 4px;
-            padding: 32px;
-            text-align: center;
-            background: #FAFAFA;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-area:hover {
-            border-color: #FF6A00;
-        }
-        
-        .upload-icon {
-            font-size: 48px;
-            color: #d9d9d9;
-            margin-bottom: 16px;
-        }
-        
-        .upload-text {
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .upload-hint {
-            color: #999;
-            font-size: 12px;
-        }
-        
-        /* 模板下载 */
-        .template-section {
-            margin-top: 16px;
-            padding: 12px 16px;
-            background: #FFFBE6;
-            border-radius: 4px;
-            border: 1px solid #FFE58F;
-        }
-        
-        .template-section a {
-            color: #FF6A00;
-            text-decoration: none;
-        }
-        
-        .template-section a:hover {
-            text-decoration: underline;
-        }
-        
-        /* 校验规则 */
-        .rules-section {
-            margin-top: 24px;
-        }
-        
-        .rules-title {
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-        
-        .rules-list {
-            background: #FAFAFA;
-            padding: 16px;
-            border-radius: 4px;
-        }
-        
-        .rule-item {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .rule-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .rule-icon {
-            color: #FF6A00;
-        }
-        
-        /* 结果展示 */
-        .result-section {
-            margin-top: 24px;
-            display: none;
-        }
-        
-        .result-section.show {
-            display: block;
-        }
-        
-        .result-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .result-icon {
-            font-size: 24px;
-        }
-        
-        .result-icon.success {
-            color: #52C41A;
-        }
-        
-        .result-icon.error {
-            color: #FF4D4F;
-        }
-        
-        .result-title {
-            font-weight: 500;
-        }
-        
-        .error-table {
-            width: 100%;
-            border: 1px solid #e8e8e8;
-            margin-top: 16px;
-        }
-        
-        .error-table th {
-            background: #FAFAFA;
-            padding: 8px 12px;
-            text-align: left;
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .error-table td {
-            padding: 8px 12px;
-            border-top: 1px solid #f0f0f0;
-            font-size: 13px;
-        }
-        
-        /* 编辑锁定期弹窗 */
-        .lock-period-list {
-            border: 1px solid #e8e8e8;
-            border-radius: 4px;
-        }
-        
-        .lock-period-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .lock-period-item:last-child {
-            border-bottom: none;
-        }
-        
-        .lock-period-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .lock-period-dates {
-            font-size: 14px;
-        }
-        
-        .lock-period-status {
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        
-        .status-pending {
-            background: #E6F7FF;
-            color: #1890FF;
-        }
-        
-        .status-active {
-            background: #FFF7E6;
-            color: #FA8C16;
-        }
-        
-        .status-ended {
-            background: #F5F5F5;
-            color: #999;
-        }
-        
-        .lock-period-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .btn-sm {
-            height: 28px;
-            padding: 0 12px;
-            font-size: 12px;
-        }
-        
-        /* 新增锁定期表单 */
-        .add-form {
-            background: #FAFAFA;
-            padding: 16px;
-            border-radius: 4px;
-            margin-top: 16px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .form-row:last-child {
-            margin-bottom: 0;
-        }
-        
-        .form-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .form-item label {
-            color: #666;
-            white-space: nowrap;
-        }
-        
-        .form-item input {
-            height: 32px;
-            padding: 4px 12px;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-            width: 140px;
-        }
-        
-        .form-item input:focus {
-            border-color: #FF6A00;
-            outline: none;
-        }
-        
-        /* 提示信息 */
-        .info-tip {
-            background: #E6F7FF;
-            border: 1px solid #91D5FF;
-            border-radius: 4px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            color: #1890FF;
-            font-size: 13px;
-        }
-        
-        .info-tip strong {
-            color: #333;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1024 Builder Show · 程序员节狂欢</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SF Mono', 'Menlo', 'Consolas', 'Courier New', monospace;
+    background: #0a0e17;
+    color: #e8f1ff;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  :root {
+    --neon-green: #00ff9d;
+    --neon-cyan: #00d4ff;
+    --neon-pink: #ff2d75;
+    --neon-yellow: #ffd23f;
+    --bg-dark: #0a0e17;
+    --bg-card: rgba(20, 28, 44, 0.85);
+    --border-glow: rgba(0, 255, 157, 0.35);
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-glow);
+  }
+  .nav-brand { font-size: 18px; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { color: #8899aa; text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: color .3s; }
+  .nav-links a:hover { color: var(--neon-cyan); }
+
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 24px 80px;
+  }
+  #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.45; z-index: 0; }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-tag {
+    display: inline-block; padding: 6px 18px;
+    border: 1px solid var(--neon-green); border-radius: 20px;
+    font-size: 12px; letter-spacing: 3px; color: var(--neon-green);
+    margin-bottom: 32px; animation: pulse 2s infinite;
+  }
+  .hero-1024 {
+    font-size: clamp(80px, 18vw, 220px); font-weight: 900;
+    background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan), var(--neon-pink));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 40px rgba(0, 255, 157, 0.4));
+    line-height: 1; letter-spacing: -5px; margin-bottom: 8px;
+  }
+  .hero-title { font-size: clamp(20px, 3.5vw, 36px); color: #fff; margin-bottom: 16px; }
+  .hero-subtitle { font-size: clamp(13px, 1.8vw, 16px); color: #8899aa; max-width: 600px; margin: 0 auto 40px; }
+  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 28px; font-family: inherit; font-size: 14px;
+    border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+    letter-spacing: 1px; transition: all .3s; font-weight: 600;
+  }
+  .btn-primary { background: var(--neon-green); color: #0a0e17; box-shadow: 0 0 20px rgba(0, 255, 157, 0.5); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 255, 157, 0.8); }
+  .btn-ghost { background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
+  .btn-ghost:hover { background: rgba(0, 212, 255, 0.1); }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
+  }
+
+  section { padding: 100px 24px; position: relative; }
+  .section-title { font-size: clamp(28px, 4vw, 42px); text-align: center; margin-bottom: 12px; color: #fff; }
+  .section-title .emoji { margin-right: 12px; }
+  .section-sub { text-align: center; color: #8899aa; margin-bottom: 60px; font-size: 14px; letter-spacing: 2px; }
+
+  .comforter {
+    max-width: 720px; margin: 0 auto;
+    background: var(--bg-card); border: 1px solid var(--border-glow);
+    border-radius: 16px; padding: 48px; text-align: center;
+    box-shadow: 0 0 60px rgba(0, 255, 157, 0.1);
+  }
+  .bug-emoji { font-size: clamp(80px, 12vw, 140px); cursor: pointer; user-select: none; transition: transform .1s; display: inline-block; }
+  .bug-emoji:active { transform: scale(0.85) rotate(-10deg); }
+  .bug-emoji.shake { animation: shake 0.4s; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    20% { transform: translateX(-10px) rotate(-10deg); }
+    40% { transform: translateX(10px) rotate(10deg); }
+    60% { transform: translateX(-6px) rotate(-5deg); }
+    80% { transform: translateX(6px) rotate(5deg); }
+  }
+  .comfort-msg {
+    font-size: clamp(16px, 2vw, 20px); color: var(--neon-green); min-height: 60px;
+    margin-top: 24px; padding: 16px; border-top: 1px dashed var(--border-glow);
+    font-style: italic; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  }
+  .comfort-hint { color: #556677; font-size: 12px; margin-top: 8px; }
+
+  .game-section { padding: 100px 24px; background: #060810; }
+  .game-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+  .game-stats {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 24px; margin-bottom: 12px;
+    background: var(--bg-card); border: 1px solid var(--border-glow);
+    border-radius: 8px; font-size: 14px;
+  }
+  .game-stats span { font-weight: bold; }
+  .game-stats .score { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255,210,63,0.5); }
+  .game-stats .hp { color: var(--neon-pink); }
+  .game-stats #wave { color: var(--neon-cyan); }
+  #game-canvas {
+    display: block; width: 100%; height: auto;
+    background: radial-gradient(ellipse at center, #121830 0%, #05080f 100%);
+    border: 2px solid var(--neon-cyan); border-radius: 8px; cursor: crosshair;
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+  }
+  .game-tip { text-align: center; color: #556677; font-size: 12px; margin-top: 12px; letter-spacing: 1px; }
+  .game-btn-row { display: flex; gap: 12px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+
+  .egg-modal {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.92);
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; padding: 24px;
+    animation: fadeIn .3s;
+  }
+  .egg-modal.show { display: flex; }
+  .egg-title {
+    font-size: clamp(36px, 6vw, 72px); margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--neon-yellow), var(--neon-pink));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; animation: bounce 1s infinite;
+  }
+  .egg-emoji { font-size: clamp(60px, 15vw, 160px); margin-bottom: 24px; }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border-glow); color: #556677; font-size: 13px; }
+  footer .trae { color: var(--neon-green); font-weight: bold; }
+
+  .floating-text {
+    position: absolute; pointer-events: none; font-weight: bold; font-size: 18px;
+    animation: floatUp 1s ease-out forwards; z-index: 10;
+  }
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-60px) scale(1.4); }
+  }
+
+  .hint-badge {
+    position: fixed; bottom: 20px; right: 20px; z-index: 50;
+    padding: 8px 14px; background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border-glow); border-radius: 20px;
+    font-size: 11px; color: #556677; letter-spacing: 1px; cursor: default;
+    transition: opacity .5s;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 12px 16px; }
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 11px; }
+    section { padding: 60px 16px; }
+    .comforter { padding: 32px 20px; }
+  }
+</style>
 </head>
 <body>
-    <!-- 顶部导航 -->
-    <div class="top-nav">
-        <div class="breadcrumb">
-            <a href="#">商业化CRM</a>
-            <span>></span>
-            <a href="#">微在线政策</a>
-            <span>></span>
-            <a href="#">政策列表</a>
-            <span>></span>
-            政策详情
-        </div>
+
+<nav>
+  <div class="nav-brand">⚡ TRAE × 1024</div>
+  <div class="nav-links">
+    <a href="#hero">首页</a>
+    <a href="#comforter">Bug安抚</a>
+    <a href="#game">打Bug</a>
+    <a href="#about">关于</a>
+  </div>
+</nav>
+
+<section id="hero" class="hero">
+  <canvas id="matrix-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-tag">1024 BUILDER SHOW · 2026</div>
+    <div class="hero-1024">1024</div>
+    <h1 class="hero-title">Happy Programmer's Day 🎉</h1>
+    <p class="hero-subtitle">一行代码，一个想法，一段可以被展示的结果。<br>用 TRAE，把 1024 变成真正的作品。</p>
+    <div class="cta-row">
+      <a href="#game" class="btn btn-primary">🎮 开始打 Bug</a>
+      <a href="#comforter" class="btn btn-ghost">💊 Bug 安抚器</a>
     </div>
-    
-    <!-- 主内容 -->
-    <div class="main-content">
-        <!-- 政策标题 -->
-        <div class="policy-header">
-            <div>
-                <div class="policy-title">双11大促-金牛闯关赛（金牛侧客户）</div>
-                <div class="policy-id">政策ID：858437046712037460</div>
-            </div>
-            <div class="policy-status">
-                <span class="status-tag running">进行中</span>
-            </div>
-        </div>
-        
-        <!-- Tab 导航 -->
-        <div class="tab-nav">
-            <div class="tab-item">政策详情</div>
-            <div class="tab-item active">客户报名信息</div>
-            <div class="tab-item">活动规则信息</div>
-            <div class="tab-item">核算信息</div>
-        </div>
-        
-        <!-- 内容卡片 -->
-        <div class="content-card">
-            <!-- 筛选条件 -->
-            <div class="filter-section">
-                <div class="filter-row">
-                    <div class="filter-item">
-                        <label>客户ID</label>
-                        <input type="text" placeholder="请输入客户ID">
-                    </div>
-                    <div class="filter-item">
-                        <label>客户名称</label>
-                        <input type="text" placeholder="请输入客户名称">
-                    </div>
-                    <div class="filter-item">
-                        <label>报名状态</label>
-                        <select>
-                            <option>全部</option>
-                            <option>报名成功</option>
-                            <option>待审核</option>
-                            <option>已拒绝</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label>是否有锁定期</label>
-                        <select>
-                            <option>全部</option>
-                            <option>是</option>
-                            <option>否</option>
-                        </select>
-                    </div>
-                    <div class="filter-actions">
-                        <button class="btn">重置</button>
-                        <button class="btn btn-primary">查询</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 操作按钮 -->
-            <div class="action-bar">
-                <div class="action-left">
-                    <button class="btn btn-orange" onclick="showBatchModal()">📊 批量设置考核锁定期</button>
-                </div>
-                <div class="action-right">
-                    <button class="btn">📥 下载数据</button>
-                </div>
-            </div>
-            
-            <!-- 数据表格 -->
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th class="text-center">序号</th>
-                        <th>客户ID</th>
-                        <th>客户名称</th>
-                        <th>考核期</th>
-                        <th>考核锁定期</th>
-                        <th>报名时间</th>
-                        <th>报名状态</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>123456789</td>
-                        <td>测试客户A</td>
-                        <td>2024/10/01 - 2024/10/31</td>
-                        <td>
-                            <div class="lock-period-tags">
-                                <span class="lock-tag locked">2024/10/11 - 2024/10/15 (进行中)</span>
-                                <span class="lock-tag">2024/10/21 - 2024/10/25</span>
-                            </div>
-                        </td>
-                        <td>2024/09/28 10:30:00</td>
-                        <td><span class="tag tag-success">报名成功</span></td>
-                        <td>
-                            <span class="action-link" onclick="showEditModal(1)">编辑锁定期</span>
-                            <span class="action-link">查看详情</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">2</td>
-                        <td>987654321</td>
-                        <td>测试客户B</td>
-                        <td>2024/10/01 - 2024/10/31</td>
-                        <td>
-                            <div class="lock-period-tags">
-                                <span class="lock-tag">2024/10/05 - 2024/10/10</span>
-                            </div>
-                        </td>
-                        <td>2024/09/28 14:20:00</td>
-                        <td><span class="tag tag-success">报名成功</span></td>
-                        <td>
-                            <span class="action-link" onclick="showEditModal(2)">编辑锁定期</span>
-                            <span class="action-link">查看详情</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">3</td>
-                        <td>456789123</td>
-                        <td>测试客户C</td>
-                        <td>2024/10/01 - 2024/10/31</td>
-                        <td><span style="color: #999;">-</span></td>
-                        <td>2024/09/29 09:15:00</td>
-                        <td><span class="tag tag-success">报名成功</span></td>
-                        <td>
-                            <span class="action-link" onclick="showEditModal(3)">编辑锁定期</span>
-                            <span class="action-link">查看详情</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">4</td>
-                        <td>789123456</td>
-                        <td>测试客户D</td>
-                        <td>2024/10/01 - 2024/10/31</td>
-                        <td>
-                            <div class="lock-period-tags">
-                                <span class="lock-tag">2024/10/15 - 2024/10/20</span>
-                                <span class="lock-tag">2024/10/25 - 2024/10/28</span>
-                            </div>
-                        </td>
-                        <td>2024/09/29 16:45:00</td>
-                        <td><span class="tag tag-success">报名成功</span></td>
-                        <td>
-                            <span class="action-link" onclick="showEditModal(4)">编辑锁定期</span>
-                            <span class="action-link">查看详情</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">5</td>
-                        <td>321654987</td>
-                        <td>测试客户E</td>
-                        <td>2024/10/01 - 2024/10/31</td>
-                        <td><span style="color: #999;">-</span></td>
-                        <td>2024/09/30 11:00:00</td>
-                        <td><span class="tag tag-warning">待审核</span></td>
-                        <td>
-                            <span class="action-link disabled">编辑锁定期</span>
-                            <span class="action-link">查看详情</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <!-- 分页 -->
-            <div class="pagination">
-                <span class="pagination-info">共 128 条，每页 10 条</span>
-                <button class="page-btn"><</button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">...</button>
-                <button class="page-btn">13</button>
-                <button class="page-btn">></button>
-            </div>
-        </div>
+  </div>
+</section>
+
+<section id="comforter">
+  <h2 class="section-title"><span class="emoji">💊</span>Bug 安抚器</h2>
+  <p class="section-sub">你的代码没问题，是全世界的 Bug 都在找你 · 点一下它</p>
+  <div class="comforter">
+    <div class="bug-emoji" id="bug-emoji" title="点我！">🐛</div>
+    <div class="comfort-msg" id="comfort-msg">点一下那只 Bug，让 AI 帮你搞定它 👆</div>
+    <p class="comfort-hint">已安抚 <span id="comfort-count">0</span> 只 Bug</p>
+  </div>
+</section>
+
+<section id="game" class="game-section">
+  <h2 class="section-title"><span class="emoji">🎯</span>Bug 终结者</h2>
+  <p class="section-sub">鼠标移动准星 · 点击/空格射击 · 保护你的代码不被 Bug 感染</p>
+  <div class="game-wrap">
+    <div class="game-stats">
+      <div>分数: <span class="score" id="score">0</span></div>
+      <div>生命: <span class="hp" id="hp">❤️❤️❤️</span></div>
+      <div>波次: <span id="wave">1</span></div>
     </div>
-    
-    <!-- 批量设置锁定期弹窗 -->
-    <div class="modal-overlay" id="batchModal">
-        <div class="modal">
-            <div class="modal-header">
-                <span class="modal-title">批量设置考核锁定期</span>
-                <span class="modal-close" onclick="hideBatchModal()">×</span>
-            </div>
-            <div class="modal-body">
-                <!-- 操作类型选择 -->
-                <div style="margin-bottom: 16px;">
-                    <label style="margin-right: 24px;">
-                        <input type="radio" name="actionType" value="add" checked> 新增锁定期
-                    </label>
-                    <label>
-                        <input type="radio" name="actionType" value="delete"> 删除锁定期
-                    </label>
-                </div>
-                
-                <!-- 上传区域 -->
-                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">点击或拖拽文件到此区域上传</div>
-                    <div class="upload-hint">支持 .xlsx, .xls 格式，单次最多 2000 条</div>
-                </div>
-                <input type="file" id="fileInput" style="display: none" accept=".xlsx,.xls" onchange="handleFileUpload(this)">
-                
-                <!-- 模板下载 -->
-                <div class="template-section">
-                    📎 请先下载模板：
-                    <a href="#" onclick="downloadTemplate('add')">新增锁定期模板</a> |
-                    <a href="#" onclick="downloadTemplate('delete')">删除锁定期模板</a>
-                </div>
-                
-                <!-- 校验规则 -->
-                <div class="rules-section">
-                    <div class="rules-title">📋 校验规则说明</div>
-                    <div class="rules-list">
-                        <div class="rule-item"><span class="rule-icon">●</span> 上传的快手ID必须属于已报名成功的客户</div>
-                        <div class="rule-item"><span class="rule-icon">●</span> 锁定期时间范围必须在考核期内</div>
-                        <div class="rule-item"><span class="rule-icon">●</span> 锁定期开始时间必须晚于当前时间</div>
-                        <div class="rule-item"><span class="rule-icon">●</span> 同一客户的多个锁定期不可交叉</div>
-                        <div class="rule-item"><span class="rule-icon">●</span> 所有锁定期的并集不可等于考核期（否则活动无意义）</div>
-                    </div>
-                </div>
-                
-                <!-- 上传结果 -->
-                <div class="result-section" id="uploadResult">
-                    <div class="result-header">
-                        <span class="result-icon success">✓</span>
-                        <span class="result-title">上传成功 8 条，失败 2 条</span>
-                    </div>
-                    
-                    <div style="color: #666; font-size: 13px; margin-bottom: 8px;">失败明细：</div>
-                    <table class="error-table">
-                        <thead>
-                            <tr>
-                                <th>快手ID</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
-                                <th>失败原因</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>123456789</td>
-                                <td>20241001</td>
-                                <td>20241005</td>
-                                <td><span style="color: #FF4D4F;">锁定期开始时间早于当前时间</span></td>
-                            </tr>
-                            <tr>
-                                <td>987654321</td>
-                                <td>20241010</td>
-                                <td>20241015</td>
-                                <td><span style="color: #FF4D4F;">该快手ID下原锁定期与新增锁定期有重合</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="hideBatchModal()">取消</button>
-                <button class="btn btn-primary" onclick="submitBatch()">确认上传</button>
-            </div>
-        </div>
+    <canvas id="game-canvas" width="800" height="500"></canvas>
+    <p class="game-tip">💡 绿色小 Bug +10 · 粉色 Boss +100 · 保护你的 💻 基地！</p>
+    <div class="game-btn-row">
+      <button class="btn btn-primary" onclick="gameRestart()">🔄 重新开始</button>
     </div>
-    
-    <!-- 编辑锁定期弹窗 -->
-    <div class="modal-overlay" id="editModal">
-        <div class="modal" style="width: 600px;">
-            <div class="modal-header">
-                <span class="modal-title">编辑锁定期 - 客户：测试客户A (123456789)</span>
-                <span class="modal-close" onclick="hideEditModal()">×</span>
-            </div>
-            <div class="modal-body">
-                <!-- 已有锁定期列表 -->
-                <div style="margin-bottom: 16px; font-weight: 500;">已设置的锁定期</div>
-                <div class="lock-period-list">
-                    <div class="lock-period-item">
-                        <div class="lock-period-info">
-                            <span class="lock-period-dates">2024/10/11 - 2024/10/15</span>
-                            <span class="lock-period-status status-active">进行中</span>
-                        </div>
-                        <div class="lock-period-actions">
-                            <button class="btn btn-sm">修改结束时间</button>
-                            <button class="btn btn-sm" disabled style="color: #ccc;">删除</button>
-                        </div>
-                    </div>
-                    <div class="lock-period-item">
-                        <div class="lock-period-info">
-                            <span class="lock-period-dates">2024/10/21 - 2024/10/25</span>
-                            <span class="lock-period-status status-pending">未生效</span>
-                        </div>
-                        <div class="lock-period-actions">
-                            <button class="btn btn-sm">修改</button>
-                            <button class="btn btn-sm">删除</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 新增锁定期 -->
-                <div style="margin-top: 24px; margin-bottom: 16px; font-weight: 500;">新增锁定期</div>
-                <div class="add-form">
-                    <div class="form-row">
-                        <div class="form-item">
-                            <label>开始时间：</label>
-                            <input type="date">
-                        </div>
-                        <div class="form-item">
-                            <label>结束时间：</label>
-                            <input type="date">
-                        </div>
-                    </div>
-                    <div style="margin-top: 12px;">
-                        <button class="btn btn-primary btn-sm">+ 添加锁定期</button>
-                    </div>
-                </div>
-                
-                <!-- 提示 -->
-                <div style="margin-top: 16px; color: #999; font-size: 12px;">
-                    ⚠️ 注意：已生效（开始中）的锁定期不可删除，仅可修改结束时间
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="hideEditModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveEdit()">保存</button>
-            </div>
-        </div>
+  </div>
+</section>
+
+<section id="about" style="text-align:center;">
+  <h2 class="section-title"><span class="emoji">🛠️</span>怎么做到的</h2>
+  <div style="max-width:640px;margin:0 auto;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:12px;padding:40px;text-align:left;">
+    <p style="margin-bottom:16px;">这个页面从想法到完整可运行，只用了 <b style="color:var(--neon-yellow);">15 分钟</b>。</p>
+    <div style="background:#000508;border-left:3px solid var(--neon-green);padding:16px;margin-bottom:16px;font-size:13px;color:#00ff9d;">
+      <div style="color:#556677;">// 我只给了 TRAE 一句话：</div>
+      <div style="margin-top:8px;">「做一个 1024 程序员节作品秀的展示页，要有数字雨 Hero、Bug 安抚器、Bug 射击小游戏，还要有隐藏彩蛋」</div>
+      <div style="color:#556677;margin-top:12px;">// 然后它直接给了我这个页面。</div>
     </div>
-    
-    <script>
-        // 批量设置弹窗
-        function showBatchModal() {
-            document.getElementById('batchModal').classList.add('show');
+    <p style="color:#8899aa;font-size:14px;">零依赖 · 单文件 HTML · 手机也能玩 · 直接丢到任何静态托管</p>
+  </div>
+</section>
+
+<footer>Made with ❤️ and <span class="trae">TRAE</span> · 1024 Builder Show · 2026/10/19</footer>
+
+<div class="hint-badge" id="hint-badge">↑↑↓↓←→←→BA · 试试看？</div>
+
+<div class="egg-modal" id="egg-modal">
+  <div class="egg-emoji">🎁</div>
+  <div class="egg-title">YOU FOUND THE EGG!</div>
+  <p style="color:#8899aa;margin-bottom:24px;">按 Konami 码 / 依次输入 1 0 2 4 / 安抚满 10 只 Bug 触发彩蛋 ✨</p>
+  <button class="btn btn-primary" onclick="document.getElementById('egg-modal').classList.remove('show')">继续打怪 →</button>
+</div>
+
+<script>
+/* ============== 1. 数字雨背景 ============== */
+(function(){
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, columns, drops;
+  const chars = '0102410241024010241001010241024';
+  const fontSize = 14;
+  function resize(){
+    w = canvas.width = canvas.offsetWidth * 2;
+    h = canvas.height = canvas.offsetHeight * 2;
+    columns = Math.floor(w / (fontSize * 2));
+    drops = Array(columns).fill(1).map(() => Math.random() * -50);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  function draw(){
+    ctx.fillStyle = 'rgba(10,14,23,0.08)';
+    ctx.fillRect(0,0,w,h);
+    ctx.font = (fontSize*2)+'px monospace';
+    for(let i=0;i<columns;i++){
+      const text = chars[Math.floor(Math.random()*chars.length)];
+      ctx.fillStyle = drops[i]*fontSize*2*2 > h/2 ? '#00d4ff' : '#00ff9d';
+      ctx.fillText(text, i*fontSize*2, drops[i]*fontSize*2*2);
+      if(drops[i]*fontSize*2*2 > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ============== 2. Bug 安抚器 ============== */
+(function(){
+  const messages = [
+    '🦉 深呼吸，这只是一个 off-by-one 错误',
+    '🧠 你的代码没问题，是编译器今天心情不好',
+    '🛠️ Bug 已被 AI 自动修复（*没完全* 但它尽力了）',
+    '🍵 休息一下，Bug 不会自己跑（但你可以）',
+    '✨ 99% 的 Bug 都是拼写错误（真的，去搜一下）',
+    '🚀 没关系，牛顿也被苹果砸过（被 Bug 砸过就是程序员）',
+    '🎵 跟着我念：bug 是 feature，feature 是... 算了',
+    '💾 你 Commit 了吗？没 Commit 就当没发生过',
+    '👻 幽灵 Bug 已经被你吓跑了',
+    '🧪 测试覆盖到了吗？那就不是你的 Bug',
+    '⚡ 让我看看... 哦这是硬件 Bug，你没错',
+    '🌸 世界上没有 Bug，只有还没发现的 Feature',
+    '🎮 打一把小游戏再回来，思路就不一样了',
+    '🔮 我用 AI 算了一下：这个 Bug 会在你睡觉的时候自己消失',
+    '🥐 法国程序员遇到 Bug 会先吃个可颂，你也试试',
+    '🌈 你的代码像彩虹一样美，Bug 只是点缀',
+    '🏆 安抚成功！你是今年最好的程序员！',
+    '🎯 其实这就是需求文档里没写的 Feature',
+  ];
+  const bug = document.getElementById('bug-emoji');
+  const msg = document.getElementById('comfort-msg');
+  const countEl = document.getElementById('comfort-count');
+  let count = 0;
+  bug.addEventListener('click', () => {
+    bug.classList.remove('shake');
+    void bug.offsetWidth;
+    bug.classList.add('shake');
+    msg.textContent = messages[Math.floor(Math.random()*messages.length)];
+    count++;
+    countEl.textContent = count;
+    const emojis = ['🐛','🪲','🐜','🦗','🐞'];
+    bug.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    if(count === 10){ window.__triggerEgg && window.__triggerEgg(); }
+  });
+})();
+
+/* ============== 3. Bug 射击游戏 ============== */
+const Game = (function(){
+  const canvas = document.getElementById('game-canvas');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width, H = canvas.height;
+
+  let bullets = [], enemies = [], particles = [];
+  let score = 0, hp = 3, wave = 1;
+  let lastSpawn = 0, spawnInterval = 1500;
+  let mouse = { x: W/2, y: H/2 };
+  let gameOver = false;
+
+  const BUG_TYPES = [
+    { emoji:'🐛', size:28, speed:1.2, hp:1, score:10, color:'#00ff9d' },
+    { emoji:'🪲', size:32, speed:1.6, hp:1, score:15, color:'#00d4ff' },
+    { emoji:'🐞', size:36, speed:1.0, hp:2, score:25, color:'#ff2d75' },
+    { emoji:'🦗', size:30, speed:2.2, hp:1, score:20, color:'#ffd23f' },
+  ];
+
+  function spawnEnemy(){
+    const isBoss = wave >= 2 && Math.random() < 0.15;
+    let type;
+    if(isBoss){
+      type = { emoji:'👹', size:60, speed:0.8, hp:8+wave*2, score:100, color:'#ff2d75', isBoss:true };
+    } else {
+      type = BUG_TYPES[Math.floor(Math.random()*BUG_TYPES.length)];
+    }
+    const side = Math.floor(Math.random()*3);
+    let x, y;
+    if(side === 0){ x = Math.random()*W; y = -50; }
+    else if(side === 1){ x = -50; y = Math.random()*H*0.6; }
+    else { x = W+50; y = Math.random()*H*0.6; }
+    const cx = W/2 + (Math.random()-0.5)*200;
+    const cy = H/2 + (Math.random()-0.5)*200;
+    const dx = cx - x, dy = cy - y;
+    const d = Math.sqrt(dx*dx+dy*dy) || 1;
+    enemies.push({ x, y, vx: dx/d*type.speed, vy: dy/d*type.speed, ...type, maxHp: type.hp });
+  }
+
+  function shoot(){
+    if(gameOver) return;
+    const speed = 14;
+    const dx = mouse.x - W/2;
+    const dy = mouse.y - H + 40;
+    const d = Math.sqrt(dx*dx+dy*dy) || 1;
+    bullets.push({
+      x: W/2, y: H-40, prevX: W/2, prevY: H-40,
+      vx: dx/d*speed, vy: dy/d*speed, radius: 5
+    });
+  }
+
+  function particle(x,y,color,count){
+    count = count || 8;
+    for(let i=0;i<count;i++){
+      const a = Math.random()*Math.PI*2;
+      const s = 2 + Math.random()*4;
+      particles.push({ x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 1, color, size: 3+Math.random()*4 });
+    }
+  }
+
+  function hitTest(bullet, enemy){
+    const r = enemy.size/2 + bullet.radius;
+    const ax = bullet.prevX, ay = bullet.prevY, bx = bullet.x, by = bullet.y;
+    const cx = enemy.x, cy = enemy.y;
+    const abx = bx-ax, aby = by-ay, acx = cx-ax, acy = cy-ay;
+    const ab2 = abx*abx + aby*aby;
+    let t = (acx*abx + acy*aby) / (ab2 || 1);
+    t = Math.max(0, Math.min(1, t));
+    const px = ax + abx*t, py = ay + aby*t;
+    const dx = px-cx, dy = py-cy;
+    return dx*dx + dy*dy <= r*r;
+  }
+
+  function showFloat(x,y,text,color){
+    const el = document.createElement('div');
+    el.className = 'floating-text';
+    el.textContent = text;
+    el.style.color = color;
+    el.style.left = (canvas.offsetLeft + x - 20) + 'px';
+    el.style.top = (canvas.offsetTop + y) + 'px';
+    el.style.textShadow = '0 0 10px '+color;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+
+  function update(dt){
+    if(gameOver) return;
+    lastSpawn += dt;
+    if(lastSpawn > spawnInterval){
+      lastSpawn = 0;
+      spawnEnemy();
+      spawnInterval = Math.max(500, 1500 - wave*80);
+    }
+    if(score >= wave * 300){
+      wave++;
+      document.getElementById('wave').textContent = wave;
+    }
+    bullets.forEach(b => { b.prevX=b.x; b.prevY=b.y; b.x+=b.vx; b.y+=b.vy; });
+    bullets = bullets.filter(b => b.x>-20 && b.x<W+20 && b.y>-20 && b.y<H+20);
+    enemies.forEach(e => {
+      const tx = W/2 - e.x, ty = H-40 - e.y;
+      const td = Math.sqrt(tx*tx+ty*ty) || 1;
+      e.vx += (tx/td) * 0.02; e.vy += (ty/td) * 0.02;
+      const sp = Math.sqrt(e.vx*e.vx+e.vy*e.vy);
+      const maxSp = e.isBoss ? 1.5 : e.speed;
+      if(sp > maxSp){ e.vx = e.vx/sp*maxSp; e.vy = e.vy/sp*maxSp; }
+      e.x += e.vx; e.y += e.vy;
+    });
+    bullets.forEach(b => {
+      enemies.forEach(e => {
+        if(!b.dead && !e.dead && hitTest(b, e)){
+          b.dead = true; e.hp--;
+          particle(b.x, b.y, e.color, e.isBoss?20:8);
+          if(e.hp <= 0){
+            e.dead = true; score += e.score;
+            document.getElementById('score').textContent = score;
+            particle(e.x, e.y, e.color, e.isBoss?30:12);
+            showFloat(e.x, e.y, '+'+e.score, e.color);
+          }
         }
-        
-        function hideBatchModal() {
-            document.getElementById('batchModal').classList.remove('show');
-        }
-        
-        // 编辑锁定期弹窗
-        function showEditModal(id) {
-            document.getElementById('editModal').classList.add('show');
-        }
-        
-        function hideEditModal() {
-            document.getElementById('editModal').classList.remove('show');
-        }
-        
-        // 文件上传
-        function handleFileUpload(input) {
-            if (input.files && input.files[0]) {
-                // 模拟上传成功
-                setTimeout(() => {
-                    document.getElementById('uploadResult').classList.add('show');
-                }, 500);
-            }
-        }
-        
-        // 下载模板
-        function downloadTemplate(type) {
-            alert('下载' + (type === 'add' ? '新增' : '删除') + '锁定期模板');
-        }
-        
-        // 提交批量操作
-        function submitBatch() {
-            alert('提交成功！');
-            hideBatchModal();
-        }
-        
-        // 保存编辑
-        function saveEdit() {
-            alert('保存成功！');
-            hideEditModal();
-        }
-        
-        // 点击弹窗外部关闭
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                }
-            });
-        });
-    </script>
+      });
+    });
+    bullets = bullets.filter(b => !b.dead);
+    enemies.forEach(e => {
+      if(e.y > H - 20){
+        e.dead = true; hp--;
+        document.getElementById('hp').textContent = '❤️'.repeat(Math.max(0,hp)) + '🖤'.repeat(Math.max(0,3-hp));
+        particle(e.x, H-10, '#ff2d75', 15);
+        if(hp <= 0){ gameOver = true; }
+      }
+    });
+    enemies = enemies.filter(e => !e.dead);
+    particles.forEach(p => { p.x+=p.vx; p.y+=p.vy; p.vx*=0.94; p.vy*=0.94; p.life-=0.03; });
+    particles = particles.filter(p => p.life > 0);
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(0,212,255,0.06)';
+    ctx.lineWidth = 1;
+    for(let x=0;x<W;x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for(let y=0;y<H;y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    particles.forEach(p => {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    bullets.forEach(b => {
+      ctx.strokeStyle = '#00ff9d'; ctx.lineWidth = 3;
+      ctx.shadowBlur = 12; ctx.shadowColor = '#00ff9d';
+      ctx.beginPath(); ctx.moveTo(b.prevX, b.prevY); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.shadowBlur = 0;
+    });
+    enemies.forEach(e => {
+      if(e.hp < e.maxHp){
+        const bw = e.size, pct = e.hp / e.maxHp;
+        ctx.fillStyle = '#333';
+        ctx.fillRect(e.x - bw/2, e.y - e.size/2 - 14, bw, 5);
+        ctx.fillStyle = pct > 0.5 ? '#00ff9d' : '#ff2d75';
+        ctx.fillRect(e.x - bw/2, e.y - e.size/2 - 14, bw*pct, 5);
+      }
+      ctx.font = (e.size) + 'px serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowBlur = 15; ctx.shadowColor = e.color;
+      ctx.fillText(e.emoji, e.x, e.y);
+      ctx.shadowBlur = 0;
+    });
+    ctx.fillStyle = 'rgba(0,255,157,0.2)';
+    ctx.fillRect(W/2 - 40, H-30, 80, 20);
+    ctx.strokeStyle = '#00ff9d'; ctx.lineWidth = 2;
+    ctx.strokeRect(W/2 - 40, H-30, 80, 20);
+    ctx.font = '16px serif'; ctx.fillText('💻', W/2, H-20);
+    ctx.strokeStyle = '#ffd23f'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 14, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(mouse.x - 22, mouse.y); ctx.lineTo(mouse.x - 8, mouse.y);
+    ctx.moveTo(mouse.x + 8, mouse.y); ctx.lineTo(mouse.x + 22, mouse.y);
+    ctx.moveTo(mouse.x, mouse.y - 22); ctx.lineTo(mouse.x, mouse.y - 8);
+    ctx.moveTo(mouse.x, mouse.y + 8); ctx.lineTo(mouse.x, mouse.y + 22);
+    ctx.stroke();
+    if(gameOver){
+      ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#ff2d75'; ctx.font = 'bold 56px monospace'; ctx.textAlign = 'center';
+      ctx.shadowBlur = 30; ctx.shadowColor = '#ff2d75';
+      ctx.fillText('BUG TOO MUCH 😵', W/2, H/2 - 30);
+      ctx.shadowBlur = 0; ctx.fillStyle = '#ffd23f'; ctx.font = '24px monospace';
+      ctx.fillText('最终分数: ' + score + '    波次: ' + wave, W/2, H/2 + 20);
+      ctx.fillStyle = '#8899aa'; ctx.font = '16px monospace';
+      ctx.fillText('点「重新开始」再战江湖', W/2, H/2 + 60);
+    }
+  }
+
+  let lastT = 0;
+  function loop(t){
+    const dt = t - lastT; lastT = t;
+    update(Math.min(dt, 50));
+    draw();
+    requestAnimationFrame(loop);
+  }
+  function init(){
+    canvas.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      const sx = W / r.width, sy = H / r.height;
+      mouse.x = (e.clientX - r.left) * sx;
+      mouse.y = (e.clientY - r.top) * sy;
+    });
+    canvas.addEventListener('mousedown', () => shoot());
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+    window.addEventListener('keydown', e => { if(e.code === 'Space'){ e.preventDefault(); shoot(); } });
+    requestAnimationFrame(loop);
+  }
+  function restart(){
+    bullets = []; enemies = []; particles = [];
+    score = 0; hp = 3; wave = 1; spawnInterval = 1500; lastSpawn = 0;
+    gameOver = false;
+    document.getElementById('score').textContent = 0;
+    document.getElementById('hp').textContent = '❤️❤️❤️';
+    document.getElementById('wave').textContent = 1;
+  }
+  return { init, restart };
+})();
+function gameRestart(){ Game.restart(); }
+Game.init();
+
+/* ============== 4. 彩蛋 ============== */
+(function(){
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let buffer = [], digitBuffer = '';
+  function triggerEgg(){
+    document.getElementById('egg-modal').classList.add('show');
+    document.getElementById('hint-badge').style.opacity = 0;
+    for(let i=0;i<40;i++){
+      const c = document.createElement('div');
+      const colors = ['#00ff9d','#00d4ff','#ff2d75','#ffd23f'];
+      c.style.cssText = `position:fixed;top:-20px;font-size:${20+Math.random()*20}px;left:${Math.random()*100}vw;z-index:300;animation:confetti ${2+Math.random()*2}s ease-in forwards;pointer-events:none;color:${colors[Math.floor(Math.random()*4)]};`;
+      c.textContent = ['🎉','🎊','✨','💻','⚡','🚀'][Math.floor(Math.random()*6)];
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(), 4000);
+    }
+  }
+  window.__triggerEgg = triggerEgg;
+  const style = document.createElement('style');
+  style.textContent = `@keyframes confetti{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}`;
+  document.head.appendChild(style);
+  document.addEventListener('keydown', e => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    buffer.push(k);
+    if(buffer.length > konami.length) buffer.shift();
+    if(buffer.join(',') === konami.join(',')){ triggerEgg(); buffer = []; }
+    if(e.key >= '0' && e.key <= '9'){
+      digitBuffer += e.key;
+      if(digitBuffer.length > 4) digitBuffer = digitBuffer.slice(-4);
+      if(digitBuffer === '1024'){ triggerEgg(); digitBuffer = ''; }
+    }
+  });
+})();
+
+setTimeout(()=>{ const b = document.getElementById('hint-badge'); if(b) b.style.opacity = 0.3; }, 8000);
+</script>
+
 </body>
 </html>
